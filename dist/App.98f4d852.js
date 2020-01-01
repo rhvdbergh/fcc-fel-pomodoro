@@ -31730,7 +31730,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Label.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Button.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31742,14 +31742,14 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Label = function Label(props) {
+var Button = function Button(props) {
   return _react.default.createElement("div", {
-    id: props.labelId,
-    className: "label"
-  }, props.labelText);
+    id: props.btnId,
+    className: "button"
+  }, props.btnText);
 };
 
-var _default = Label;
+var _default = Button;
 exports.default = _default;
 },{"react":"../node_modules/react/index.js"}],"components/LengthDisplay.js":[function(require,module,exports) {
 "use strict";
@@ -31772,7 +31772,67 @@ var LengthDisplay = function LengthDisplay(props) {
 
 var _default = LengthDisplay;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/TimeLeft.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"components/Label.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Label = function Label(props) {
+  return _react.default.createElement("div", {
+    id: props.labelId,
+    className: "label"
+  }, props.labelText);
+};
+
+var _default = Label;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/SetDurationContainer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _Button = _interopRequireDefault(require("./Button"));
+
+var _LengthDisplay = _interopRequireDefault(require("./LengthDisplay"));
+
+var _Label = _interopRequireDefault(require("./Label"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SetDurationContainer = function SetDurationContainer(props) {
+  var lowerCaseTitle = props.title.toLowerCase();
+  return _react.default.createElement("div", {
+    id: "".concat(lowerCaseTitle, "_container")
+  }, _react.default.createElement(_Label.default, {
+    labelId: "".concat(lowerCaseTitle, "-label"),
+    labelText: "".concat(props.title, " Length")
+  }), _react.default.createElement(_Button.default, {
+    btnId: "".concat(lowerCaseTitle, "-decrement"),
+    btnText: "-"
+  }), _react.default.createElement(_Button.default, {
+    btnId: "".concat(lowerCaseTitle, "-increment"),
+    btnText: "+"
+  }), _react.default.createElement(_LengthDisplay.default, {
+    lengthDisplayId: "".concat(lowerCaseTitle, "-length"),
+    lengthDisplayText: props.duration
+  }));
+};
+
+var _default = SetDurationContainer;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./Button":"components/Button.js","./LengthDisplay":"components/LengthDisplay.js","./Label":"components/Label.js"}],"components/TimeLeft.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31792,28 +31852,7 @@ var TimeLeft = function TimeLeft(props) {
 
 var _default = TimeLeft;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/Button.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Button = function Button(props) {
-  return _react.default.createElement("div", {
-    id: props.btnId,
-    className: "button"
-  }, props.btnText);
-};
-
-var _default = Button;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/Container.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"components/Timer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31825,11 +31864,38 @@ var _react = _interopRequireDefault(require("react"));
 
 var _Label = _interopRequireDefault(require("./Label"));
 
-var _LengthDisplay = _interopRequireDefault(require("./LengthDisplay"));
-
 var _TimeLeft = _interopRequireDefault(require("./TimeLeft"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Timer = function Timer(props) {
+  return _react.default.createElement("div", {
+    id: "timer_container"
+  }, _react.default.createElement(_Label.default, {
+    labelId: "timer-label",
+    labelText: props.timerLabelText
+  }), _react.default.createElement(_TimeLeft.default, {
+    timeLeft: props.timeLeft
+  }));
+};
+
+var _default = Timer;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./Label":"components/Label.js","./TimeLeft":"components/TimeLeft.js"}],"components/Container.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
 var _Button = _interopRequireDefault(require("./Button"));
+
+var _SetDurationContainer = _interopRequireDefault(require("./SetDurationContainer"));
+
+var _Timer = _interopRequireDefault(require("./Timer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31879,42 +31945,24 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", {
         id: "container"
-      }, _react.default.createElement(_Label.default, {
-        labelId: "break-label",
-        labelText: "Break Length"
-      }), _react.default.createElement(_Button.default, {
-        btnId: "break-decrement",
-        btnText: "-"
-      }), _react.default.createElement(_Button.default, {
-        btnId: "break-increment",
-        btnText: "+"
-      }), _react.default.createElement(_LengthDisplay.default, {
-        lengthDisplayId: "break-length",
-        lengthDisplayText: this.state.breakLength
-      }), _react.default.createElement(_Label.default, {
-        labelId: "session-label",
-        labelText: "Session Label"
-      }), _react.default.createElement(_Button.default, {
-        btnId: "session-decrement",
-        btnText: "-"
-      }), _react.default.createElement(_Button.default, {
-        btnId: "session-increment",
-        btnText: "+"
-      }), _react.default.createElement(_LengthDisplay.default, {
-        lengthDisplayId: "session-length",
-        lengthDisplayText: this.state.sessionLength
-      }), _react.default.createElement(_Label.default, {
-        labelId: "timer-label",
-        labelText: this.state.timerLabelText
-      }), _react.default.createElement(_TimeLeft.default, {
+      }, _react.default.createElement(_SetDurationContainer.default, {
+        title: "Break",
+        duration: this.state.breakLength
+      }), _react.default.createElement(_SetDurationContainer.default, {
+        title: "Session",
+        duration: this.state.sessionLength
+      }), _react.default.createElement(_Timer.default, {
+        timerLabelText: this.state.timerLabelText,
         timeLeft: this.state.timeLeft
-      }), _react.default.createElement(_Button.default, {
+      }), _react.default.createElement("div", {
+        id: "controls_container"
+      }, _react.default.createElement(_Button.default, {
         btnId: "start_stop",
         btnText: this.state.startStop
       }), _react.default.createElement(_Button.default, {
         btnId: "reset",
         btnText: "Reset"
-      }));
+      })));
     }
   }]);
 
@@ -31923,7 +31971,7 @@ function (_React$Component) {
 
 var _default = Container;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Label":"components/Label.js","./LengthDisplay":"components/LengthDisplay.js","./TimeLeft":"components/TimeLeft.js","./Button":"components/Button.js"}],"components/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Button":"components/Button.js","./SetDurationContainer":"components/SetDurationContainer.js","./Timer":"components/Timer.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -31967,7 +32015,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57113" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64672" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

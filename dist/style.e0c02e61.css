@@ -1,0 +1,19 @@
+body,
+html {
+  height: 100%;
+  position: relative;
+  background: #caeba4;
+}
+
+#container {
+  width: 400px;
+  height: 400px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: blue;
+}
+
+/*# sourceMappingURL=/style.e0c02e61.css.map */

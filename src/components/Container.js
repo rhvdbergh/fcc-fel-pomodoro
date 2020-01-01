@@ -1,9 +1,8 @@
 import React from 'react';
 
-import Label from './Label';
-import LengthDisplay from './LengthDisplay';
-import TimeLeft from './TimeLeft';
 import Button from './Button';
+import SetDurationContainer from './SetDurationContainer';
+import Timer from './Timer';
 
 class Container extends React.Component {
   constructor(props) {
@@ -23,24 +22,19 @@ class Container extends React.Component {
   render() {
     return (
       <div id="container">
-        <Label labelId="break-label" labelText="Break Length" />
-        <Button btnId="break-decrement" btnText="-" />
-        <Button btnId="break-increment" btnText="+" />
-        <LengthDisplay
-          lengthDisplayId="break-length"
-          lengthDisplayText={this.state.breakLength}
+        <SetDurationContainer title="Break" duration={this.state.breakLength} />
+        <SetDurationContainer
+          title="Session"
+          duration={this.state.sessionLength}
         />
-        <Label labelId="session-label" labelText="Session Label" />
-        <Button btnId="session-decrement" btnText="-" />
-        <Button btnId="session-increment" btnText="+" />
-        <LengthDisplay
-          lengthDisplayId="session-length"
-          lengthDisplayText={this.state.sessionLength}
+        <Timer
+          timerLabelText={this.state.timerLabelText}
+          timeLeft={this.state.timeLeft}
         />
-        <Label labelId="timer-label" labelText={this.state.timerLabelText} />
-        <TimeLeft timeLeft={this.state.timeLeft} />
-        <Button btnId="start_stop" btnText={this.state.startStop} />
-        <Button btnId="reset" btnText="Reset" />
+        <div id="controls_container">
+          <Button btnId="start_stop" btnText={this.state.startStop} />
+          <Button btnId="reset" btnText="Reset" />
+        </div>
       </div>
     );
   }
