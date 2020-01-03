@@ -31939,6 +31939,7 @@ function (_React$Component) {
 
     _this.setBreakLength = _this.setBreakLength.bind(_assertThisInitialized(_this));
     _this.setSessionLength = _this.setSessionLength.bind(_assertThisInitialized(_this));
+    _this.reset = _this.reset.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -31973,6 +31974,11 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "reset",
+    value: function reset() {
+      this.setState(this.initialState);
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -31981,6 +31987,7 @@ function (_React$Component) {
       var decrementBreakBtn = document.getElementById('break-decrement');
       var incrementSessionBtn = document.getElementById('session-increment');
       var decrementSessionBtn = document.getElementById('session-decrement');
+      var resetBtn = document.getElementById('reset');
       incrementBreakBtn.addEventListener('click', function () {
         return _this2.setBreakLength('+');
       });
@@ -31992,6 +31999,9 @@ function (_React$Component) {
       });
       decrementSessionBtn.addEventListener('click', function () {
         return _this2.setSessionLength('-');
+      });
+      resetBtn.addEventListener('click', function () {
+        return _this2.reset();
       });
     }
   }, {

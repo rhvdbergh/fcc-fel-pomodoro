@@ -20,6 +20,7 @@ class Container extends React.Component {
 
     this.setBreakLength = this.setBreakLength.bind(this);
     this.setSessionLength = this.setSessionLength.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   setBreakLength(sign) {
@@ -42,11 +43,17 @@ class Container extends React.Component {
     }
   }
 
+  reset() {
+    this.setState(this.initialState);
+  }
+
   componentDidMount() {
     const incrementBreakBtn = document.getElementById('break-increment');
     const decrementBreakBtn = document.getElementById('break-decrement');
     const incrementSessionBtn = document.getElementById('session-increment');
     const decrementSessionBtn = document.getElementById('session-decrement');
+
+    const resetBtn = document.getElementById('reset');
 
     incrementBreakBtn.addEventListener('click', () => this.setBreakLength('+'));
     decrementBreakBtn.addEventListener('click', () => this.setBreakLength('-'));
@@ -56,6 +63,8 @@ class Container extends React.Component {
     decrementSessionBtn.addEventListener('click', () =>
       this.setSessionLength('-')
     );
+
+    resetBtn.addEventListener('click', () => this.reset());
   }
 
   render() {
