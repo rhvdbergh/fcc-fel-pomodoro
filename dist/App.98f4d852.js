@@ -31745,7 +31745,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Button = function Button(props) {
   return _react.default.createElement("div", {
     id: props.btnId,
-    className: "button"
+    className: "button",
+    onClick: function onClick() {
+      return props.setter(props.btnText);
+    }
   }, props.btnText);
 };
 
@@ -31820,10 +31823,12 @@ var SetDurationContainer = function SetDurationContainer(props) {
     labelText: "".concat(props.title, " Length")
   }), _react.default.createElement(_Button.default, {
     btnId: "".concat(lowerCaseTitle, "-decrement"),
-    btnText: "-"
+    btnText: "-",
+    setter: props.setter
   }), _react.default.createElement(_Button.default, {
     btnId: "".concat(lowerCaseTitle, "-increment"),
-    btnText: "+"
+    btnText: "+",
+    setter: props.setter
   }), _react.default.createElement(_LengthDisplay.default, {
     lengthDisplayId: "".concat(lowerCaseTitle, "-length"),
     lengthDisplayText: props.duration
@@ -31909,9 +31914,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -31937,20 +31942,54 @@ function (_React$Component) {
     };
     _this.initialState = _this.state; // in case we need to reset to default values
 
+    _this.setBreakLength = _this.setBreakLength.bind(_assertThisInitialized(_this));
+    _this.setSessionLength = _this.setSessionLength.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Container, [{
+    key: "setBreakLength",
+    value: function setBreakLength(sign) {
+      if (sign === '-' && !(this.state.breakLength < 1)) {
+        this.setState({
+          breakLength: this.state.breakLength - 1
+        });
+      }
+
+      if (sign === '+' && !(this.state.breakLength > 59)) {
+        this.setState({
+          breakLength: this.state.breakLength + 1
+        });
+      }
+    }
+  }, {
+    key: "setSessionLength",
+    value: function setSessionLength(sign) {
+      if (sign === '-' && !(this.state.sessionLength < 1)) {
+        this.setState({
+          sessionLength: this.state.sessionLength - 1
+        });
+      }
+
+      if (sign === '+' && !(this.state.sessionLength > 59)) {
+        this.setState({
+          sessionLength: this.state.sessionLength + 1
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
         id: "container"
       }, _react.default.createElement(_SetDurationContainer.default, {
         title: "Break",
-        duration: this.state.breakLength
+        duration: this.state.breakLength,
+        setter: this.setBreakLength
       }), _react.default.createElement(_SetDurationContainer.default, {
         title: "Session",
-        duration: this.state.sessionLength
+        duration: this.state.sessionLength,
+        setter: this.setSessionLength
       }), _react.default.createElement(_Timer.default, {
         timerLabelText: this.state.timerLabelText,
         timeLeft: this.state.timeLeft

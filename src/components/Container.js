@@ -17,15 +17,43 @@ class Container extends React.Component {
     };
 
     this.initialState = this.state; // in case we need to reset to default values
+
+    this.setBreakLength = this.setBreakLength.bind(this);
+    this.setSessionLength = this.setSessionLength.bind(this);
+  }
+
+  setBreakLength(sign) {
+    if (sign === '-' && !(this.state.breakLength < 1)) {
+      this.setState({ breakLength: this.state.breakLength - 1 });
+    }
+
+    if (sign === '+' && !(this.state.breakLength > 59)) {
+      this.setState({ breakLength: this.state.breakLength + 1 });
+    }
+  }
+
+  setSessionLength(sign) {
+    if (sign === '-' && !(this.state.sessionLength < 1)) {
+      this.setState({ sessionLength: this.state.sessionLength - 1 });
+    }
+
+    if (sign === '+' && !(this.state.sessionLength > 59)) {
+      this.setState({ sessionLength: this.state.sessionLength + 1 });
+    }
   }
 
   render() {
     return (
       <div id="container">
-        <SetDurationContainer title="Break" duration={this.state.breakLength} />
+        <SetDurationContainer
+          title="Break"
+          duration={this.state.breakLength}
+          setter={this.setBreakLength}
+        />
         <SetDurationContainer
           title="Session"
           duration={this.state.sessionLength}
+          setter={this.setSessionLength}
         />
         <Timer
           timerLabelText={this.state.timerLabelText}

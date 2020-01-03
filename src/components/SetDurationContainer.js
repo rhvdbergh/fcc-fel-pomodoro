@@ -13,8 +13,16 @@ const SetDurationContainer = props => {
         labelId={`${lowerCaseTitle}-label`}
         labelText={`${props.title} Length`}
       />
-      <Button btnId={`${lowerCaseTitle}-decrement`} btnText="-" />
-      <Button btnId={`${lowerCaseTitle}-increment`} btnText="+" />
+      <Button
+        btnId={`${lowerCaseTitle}-decrement`}
+        btnText="-"
+        setter={props.setter}
+      />
+      <Button
+        btnId={`${lowerCaseTitle}-increment`}
+        btnText="+"
+        setter={props.setter}
+      />
       <LengthDisplay
         lengthDisplayId={`${lowerCaseTitle}-length`}
         lengthDisplayText={props.duration}
