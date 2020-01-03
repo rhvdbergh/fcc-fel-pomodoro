@@ -31953,7 +31953,28 @@ function (_React$Component) {
   _createClass(Container, [{
     key: "calcTimeLeft",
     value: function calcTimeLeft() {
-      console.log(this.state.timeLeft);
+      if (this.state.timeLeft === 0) {
+        // timer has run out!
+        if (this.state.inSession) {
+          var len = this.state.breakLength * 60;
+          this.setState({
+            inSession: false,
+            inBreak: true,
+            timeLeft: len,
+            timerLabelText: 'Break'
+          });
+        } else if (this.state.inBreak) {
+          var _len = this.state.sessionLength * 60;
+
+          this.setState({
+            inSession: true,
+            inBreak: false,
+            timeLeft: _len,
+            timerLabelText: 'Session'
+          });
+        }
+      }
+
       var seconds = this.state.timeLeft % 60;
       var min = (this.state.timeLeft - seconds) / 60;
 
@@ -31965,7 +31986,6 @@ function (_React$Component) {
         min = '0' + min;
       }
 
-      console.log(min);
       this.setState({
         timeLeftText: "".concat(min, ":").concat(seconds)
       });

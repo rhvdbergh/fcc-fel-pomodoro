@@ -30,7 +30,26 @@ class Container extends React.Component {
   }
 
   calcTimeLeft() {
-    console.log(this.state.timeLeft);
+    if (this.state.timeLeft === 0) {
+      // timer has run out!
+      if (this.state.inSession) {
+        const len = this.state.breakLength * 60;
+        this.setState({
+          inSession: false,
+          inBreak: true,
+          timeLeft: len,
+          timerLabelText: 'Break'
+        });
+      } else if (this.state.inBreak) {
+        const len = this.state.sessionLength * 60;
+        this.setState({
+          inSession: true,
+          inBreak: false,
+          timeLeft: len,
+          timerLabelText: 'Session'
+        });
+      }
+    }
 
     let seconds = this.state.timeLeft % 60;
     let min = (this.state.timeLeft - seconds) / 60;
@@ -42,8 +61,6 @@ class Container extends React.Component {
     if ((min + '').length < 2) {
       min = '0' + min;
     }
-
-    console.log(min);
 
     this.setState({ timeLeftText: `${min}:${seconds}` });
   }
