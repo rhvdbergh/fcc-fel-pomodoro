@@ -42,18 +42,29 @@ class Container extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const incrementBreakBtn = document.getElementById('break-increment');
+    const decrementBreakBtn = document.getElementById('break-decrement');
+    const incrementSessionBtn = document.getElementById('session-increment');
+    const decrementSessionBtn = document.getElementById('session-decrement');
+
+    incrementBreakBtn.addEventListener('click', () => this.setBreakLength('+'));
+    decrementBreakBtn.addEventListener('click', () => this.setBreakLength('-'));
+    incrementSessionBtn.addEventListener('click', () =>
+      this.setSessionLength('+')
+    );
+    decrementSessionBtn.addEventListener('click', () =>
+      this.setSessionLength('-')
+    );
+  }
+
   render() {
     return (
       <div id="container">
-        <SetDurationContainer
-          title="Break"
-          duration={this.state.breakLength}
-          setter={this.setBreakLength}
-        />
+        <SetDurationContainer title="Break" duration={this.state.breakLength} />
         <SetDurationContainer
           title="Session"
           duration={this.state.sessionLength}
-          setter={this.setSessionLength}
         />
         <Timer
           timerLabelText={this.state.timerLabelText}

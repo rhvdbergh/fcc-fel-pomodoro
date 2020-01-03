@@ -31745,10 +31745,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Button = function Button(props) {
   return _react.default.createElement("div", {
     id: props.btnId,
-    className: "button",
-    onClick: function onClick() {
-      return props.setter(props.btnText);
-    }
+    className: "button"
   }, props.btnText);
 };
 
@@ -31823,12 +31820,10 @@ var SetDurationContainer = function SetDurationContainer(props) {
     labelText: "".concat(props.title, " Length")
   }), _react.default.createElement(_Button.default, {
     btnId: "".concat(lowerCaseTitle, "-decrement"),
-    btnText: "-",
-    setter: props.setter
+    btnText: "-"
   }), _react.default.createElement(_Button.default, {
     btnId: "".concat(lowerCaseTitle, "-increment"),
-    btnText: "+",
-    setter: props.setter
+    btnText: "+"
   }), _react.default.createElement(_LengthDisplay.default, {
     lengthDisplayId: "".concat(lowerCaseTitle, "-length"),
     lengthDisplayText: props.duration
@@ -31978,18 +31973,38 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var incrementBreakBtn = document.getElementById('break-increment');
+      var decrementBreakBtn = document.getElementById('break-decrement');
+      var incrementSessionBtn = document.getElementById('session-increment');
+      var decrementSessionBtn = document.getElementById('session-decrement');
+      incrementBreakBtn.addEventListener('click', function () {
+        return _this2.setBreakLength('+');
+      });
+      decrementBreakBtn.addEventListener('click', function () {
+        return _this2.setBreakLength('-');
+      });
+      incrementSessionBtn.addEventListener('click', function () {
+        return _this2.setSessionLength('+');
+      });
+      decrementSessionBtn.addEventListener('click', function () {
+        return _this2.setSessionLength('-');
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
         id: "container"
       }, _react.default.createElement(_SetDurationContainer.default, {
         title: "Break",
-        duration: this.state.breakLength,
-        setter: this.setBreakLength
+        duration: this.state.breakLength
       }), _react.default.createElement(_SetDurationContainer.default, {
         title: "Session",
-        duration: this.state.sessionLength,
-        setter: this.setSessionLength
+        duration: this.state.sessionLength
       }), _react.default.createElement(_Timer.default, {
         timerLabelText: this.state.timerLabelText,
         timeLeft: this.state.timeLeft
@@ -32054,7 +32069,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64672" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62668" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
