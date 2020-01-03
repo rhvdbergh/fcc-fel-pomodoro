@@ -31932,18 +31932,20 @@ function (_React$Component) {
       timeLeftText: '25:00',
       timeLeft: 1500,
       // seconds
-      startStop: 'Start',
+      startStopText: 'Start',
       timerLabelText: 'Session',
       breakLength: 5,
       sessionLength: 25,
       inSession: false,
-      inBreak: false
+      inBreak: false,
+      timerRunning: false
     };
     _this.initialState = _this.state; // in case we need to reset to default values
 
     _this.setBreakLength = _this.setBreakLength.bind(_assertThisInitialized(_this));
     _this.setSessionLength = _this.setSessionLength.bind(_assertThisInitialized(_this));
     _this.reset = _this.reset.bind(_assertThisInitialized(_this));
+    _this.startStop = _this.startStop.bind(_assertThisInitialized(_this));
     _this.calcTimeLeft = _this.calcTimeLeft.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -31967,6 +31969,29 @@ function (_React$Component) {
       this.setState({
         timeLeftText: "".concat(min, ":").concat(seconds)
       });
+    }
+  }, {
+    key: "startStop",
+    value: function startStop() {
+      this.setState({
+        timerRunning: !this.state.timerRunning
+      });
+
+      if (!this.state.inSession && !this.state.inBreak) {
+        this.setState({
+          inSession: true
+        });
+      }
+
+      if (this.state.startStopText === 'Start') {
+        this.setState({
+          startStopText: 'Stop'
+        });
+      } else {
+        this.setState({
+          startStopText: 'Start'
+        });
+      }
     }
   }, {
     key: "setBreakLength",
@@ -31998,11 +32023,13 @@ function (_React$Component) {
         });
       }
 
-      var len = this.state.sessionLength * 60;
-      this.setState({
-        timeLeft: len
-      });
-      this.calcTimeLeft();
+      if (!this.state.inSession && !this.state.inBreak) {
+        var len = this.state.sessionLength * 60;
+        this.setState({
+          timeLeft: len
+        });
+        this.calcTimeLeft();
+      }
     }
   }, {
     key: "reset",
@@ -32018,6 +32045,7 @@ function (_React$Component) {
       var decrementBreakBtn = document.getElementById('break-decrement');
       var incrementSessionBtn = document.getElementById('session-increment');
       var decrementSessionBtn = document.getElementById('session-decrement');
+      var startStopBtn = document.getElementById('start_stop');
       var resetBtn = document.getElementById('reset');
       incrementBreakBtn.addEventListener('click', function () {
         return _this2.setBreakLength('+');
@@ -32031,9 +32059,21 @@ function (_React$Component) {
       decrementSessionBtn.addEventListener('click', function () {
         return _this2.setSessionLength('-');
       });
+      startStopBtn.addEventListener('click', function () {
+        return _this2.startStop();
+      });
       resetBtn.addEventListener('click', function () {
         return _this2.reset();
       });
+      var timer = setInterval(function () {
+        if (_this2.state.timerRunning) {
+          _this2.setState({
+            timeLeft: _this2.state.timeLeft - 1
+          });
+
+          _this2.calcTimeLeft();
+        }
+      }, 1000);
     }
   }, {
     key: "render",
@@ -32053,7 +32093,7 @@ function (_React$Component) {
         id: "controls_container"
       }, _react.default.createElement(_Button.default, {
         btnId: "start_stop",
-        btnText: this.state.startStop
+        btnText: this.state.startStopText
       }), _react.default.createElement(_Button.default, {
         btnId: "reset",
         btnText: "Reset"

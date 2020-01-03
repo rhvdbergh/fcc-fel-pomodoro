@@ -11,12 +11,13 @@ class Container extends React.Component {
     this.state = {
       timeLeftText: '25:00',
       timeLeft: 1500, // seconds
-      startStop: 'Start',
+      startStopText: 'Start',
       timerLabelText: 'Session',
       breakLength: 5,
       sessionLength: 25,
       inSession: false,
-      inBreak: false
+      inBreak: false,
+      timerRunning: false
     };
 
     this.initialState = this.state; // in case we need to reset to default values
@@ -24,6 +25,7 @@ class Container extends React.Component {
     this.setBreakLength = this.setBreakLength.bind(this);
     this.setSessionLength = this.setSessionLength.bind(this);
     this.reset = this.reset.bind(this);
+    this.startStop = this.startStop.bind(this);
     this.calcTimeLeft = this.calcTimeLeft.bind(this);
   }
 
@@ -46,6 +48,20 @@ class Container extends React.Component {
     this.setState({ timeLeftText: `${min}:${seconds}` });
   }
 
+  startStop() {
+    this.setState({ timerRunning: !this.state.timerRunning });
+
+    if (!this.state.inSession && !this.state.inBreak) {
+      this.setState({ inSession: true });
+    }
+
+    if (this.state.startStopText === 'Start') {
+      this.setState({ startStopText: 'Stop' });
+    } else {
+      this.setState({ startStopText: 'Start' });
+    }
+  }
+
   setBreakLength(sign) {
     if (sign === '-' && !(this.state.breakLength <= 1)) {
       this.setState({ breakLength: this.state.breakLength - 1 });
@@ -65,10 +81,12 @@ class Container extends React.Component {
       this.setState({ sessionLength: this.state.sessionLength + 1 });
     }
 
-    const len = this.state.sessionLength * 60;
+    if (!this.state.inSession && !this.state.inBreak) {
+      const len = this.state.sessionLength * 60;
 
-    this.setState({ timeLeft: len });
-    this.calcTimeLeft();
+      this.setState({ timeLeft: len });
+      this.calcTimeLeft();
+    }
   }
 
   reset() {
@@ -81,6 +99,7 @@ class Container extends React.Component {
     const incrementSessionBtn = document.getElementById('session-increment');
     const decrementSessionBtn = document.getElementById('session-decrement');
 
+    const startStopBtn = document.getElementById('start_stop');
     const resetBtn = document.getElementById('reset');
 
     incrementBreakBtn.addEventListener('click', () => this.setBreakLength('+'));
@@ -92,7 +111,16 @@ class Container extends React.Component {
       this.setSessionLength('-')
     );
 
+    startStopBtn.addEventListener('click', () => this.startStop());
+
     resetBtn.addEventListener('click', () => this.reset());
+
+    const timer = setInterval(() => {
+      if (this.state.timerRunning) {
+        this.setState({ timeLeft: this.state.timeLeft - 1 });
+        this.calcTimeLeft();
+      }
+    }, 1000);
   }
 
   render() {
@@ -108,7 +136,7 @@ class Container extends React.Component {
           timeLeft={this.state.timeLeftText}
         />
         <div id="controls_container">
-          <Button btnId="start_stop" btnText={this.state.startStop} />
+          <Button btnId="start_stop" btnText={this.state.startStopText} />
           <Button btnId="reset" btnText="Reset" />
         </div>
       </div>
