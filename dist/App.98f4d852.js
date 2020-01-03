@@ -31929,24 +31929,49 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Container).call(this, props));
     _this.state = {
-      timeLeft: '25:00',
+      timeLeftText: '25:00',
+      timeLeft: 1500,
+      // seconds
       startStop: 'Start',
       timerLabelText: 'Session',
       breakLength: 5,
-      sessionLength: 25
+      sessionLength: 25,
+      inSession: false,
+      inBreak: false
     };
     _this.initialState = _this.state; // in case we need to reset to default values
 
     _this.setBreakLength = _this.setBreakLength.bind(_assertThisInitialized(_this));
     _this.setSessionLength = _this.setSessionLength.bind(_assertThisInitialized(_this));
     _this.reset = _this.reset.bind(_assertThisInitialized(_this));
+    _this.calcTimeLeft = _this.calcTimeLeft.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Container, [{
+    key: "calcTimeLeft",
+    value: function calcTimeLeft() {
+      console.log(this.state.timeLeft);
+      var seconds = this.state.timeLeft % 60;
+      var min = (this.state.timeLeft - seconds) / 60;
+
+      if ((seconds + '').length < 2) {
+        seconds = '0' + seconds;
+      }
+
+      if ((min + '').length < 2) {
+        min = '0' + min;
+      }
+
+      console.log(min);
+      this.setState({
+        timeLeftText: "".concat(min, ":").concat(seconds)
+      });
+    }
+  }, {
     key: "setBreakLength",
     value: function setBreakLength(sign) {
-      if (sign === '-' && !(this.state.breakLength < 1)) {
+      if (sign === '-' && !(this.state.breakLength <= 1)) {
         this.setState({
           breakLength: this.state.breakLength - 1
         });
@@ -31961,7 +31986,7 @@ function (_React$Component) {
   }, {
     key: "setSessionLength",
     value: function setSessionLength(sign) {
-      if (sign === '-' && !(this.state.sessionLength < 1)) {
+      if (sign === '-' && !(this.state.sessionLength <= 1)) {
         this.setState({
           sessionLength: this.state.sessionLength - 1
         });
@@ -31972,6 +31997,12 @@ function (_React$Component) {
           sessionLength: this.state.sessionLength + 1
         });
       }
+
+      var len = this.state.sessionLength * 60;
+      this.setState({
+        timeLeft: len
+      });
+      this.calcTimeLeft();
     }
   }, {
     key: "reset",
@@ -32017,7 +32048,7 @@ function (_React$Component) {
         duration: this.state.sessionLength
       }), _react.default.createElement(_Timer.default, {
         timerLabelText: this.state.timerLabelText,
-        timeLeft: this.state.timeLeft
+        timeLeft: this.state.timeLeftText
       }), _react.default.createElement("div", {
         id: "controls_container"
       }, _react.default.createElement(_Button.default, {
