@@ -13,8 +13,8 @@ class Container extends React.Component {
       timeLeft: 1500, // seconds
       startStopText: 'Start',
       timerLabelText: 'Session',
-      breakLength: 5,
-      sessionLength: 25,
+      breakLength: 5, // minutes
+      sessionLength: 25, // minutes
       inSession: false,
       inBreak: false,
       timerRunning: false
@@ -67,8 +67,11 @@ class Container extends React.Component {
 
   startStop() {
     this.setState({ timerRunning: !this.state.timerRunning });
+    this.calcTimeLeft();
 
     if (!this.state.inSession && !this.state.inBreak) {
+      this.setState({ timeLeft: this.state.timeLeft - 1 });
+      this.calcTimeLeft();
       this.setState({ inSession: true });
     }
 
@@ -77,6 +80,7 @@ class Container extends React.Component {
     } else {
       this.setState({ startStopText: 'Start' });
     }
+    this.calcTimeLeft();
   }
 
   setBreakLength(sign) {
@@ -118,7 +122,6 @@ class Container extends React.Component {
 
     const startStopBtn = document.getElementById('start_stop');
     const resetBtn = document.getElementById('reset');
-    const beep = document.getElementById('beep').play();
 
     incrementBreakBtn.addEventListener('click', () => this.setBreakLength('+'));
     decrementBreakBtn.addEventListener('click', () => this.setBreakLength('-'));
