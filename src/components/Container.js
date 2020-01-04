@@ -30,6 +30,19 @@ class Container extends React.Component {
   }
 
   calcTimeLeft() {
+    let seconds = this.state.timeLeft % 60;
+    let min = (this.state.timeLeft - seconds) / 60;
+
+    if ((seconds + '').length < 2) {
+      seconds = '0' + seconds;
+    }
+
+    if ((min + '').length < 2) {
+      min = '0' + min;
+    }
+
+    this.setState({ timeLeftText: `${min}:${seconds}` });
+
     if (this.state.timeLeft === 0) {
       // timer has run out!
       if (this.state.inSession) {
@@ -50,19 +63,6 @@ class Container extends React.Component {
         });
       }
     }
-
-    let seconds = this.state.timeLeft % 60;
-    let min = (this.state.timeLeft - seconds) / 60;
-
-    if ((seconds + '').length < 2) {
-      seconds = '0' + seconds;
-    }
-
-    if ((min + '').length < 2) {
-      min = '0' + min;
-    }
-
-    this.setState({ timeLeftText: `${min}:${seconds}` });
   }
 
   startStop() {
@@ -118,6 +118,7 @@ class Container extends React.Component {
 
     const startStopBtn = document.getElementById('start_stop');
     const resetBtn = document.getElementById('reset');
+    const beep = document.getElementById('beep').play();
 
     incrementBreakBtn.addEventListener('click', () => this.setBreakLength('+'));
     decrementBreakBtn.addEventListener('click', () => this.setBreakLength('-'));
@@ -134,8 +135,8 @@ class Container extends React.Component {
 
     const timer = setInterval(() => {
       if (this.state.timerRunning) {
-        this.setState({ timeLeft: this.state.timeLeft - 1 });
         this.calcTimeLeft();
+        this.setState({ timeLeft: this.state.timeLeft - 1 });
       }
     }, 1000);
   }
@@ -156,6 +157,7 @@ class Container extends React.Component {
           <Button btnId="start_stop" btnText={this.state.startStopText} />
           <Button btnId="reset" btnText="Reset" />
         </div>
+        <audio src="./beep.mp3" id="beep"></audio>
       </div>
     );
   }

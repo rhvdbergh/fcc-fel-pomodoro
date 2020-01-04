@@ -31818,16 +31818,18 @@ var SetDurationContainer = function SetDurationContainer(props) {
   }, _react.default.createElement(_Label.default, {
     labelId: "".concat(lowerCaseTitle, "-label"),
     labelText: "".concat(props.title, " Length")
-  }), _react.default.createElement(_Button.default, {
+  }), _react.default.createElement("div", {
+    id: "".concat(lowerCaseTitle, "_controls_container")
+  }, _react.default.createElement(_Button.default, {
     btnId: "".concat(lowerCaseTitle, "-decrement"),
     btnText: "-"
-  }), _react.default.createElement(_Button.default, {
-    btnId: "".concat(lowerCaseTitle, "-increment"),
-    btnText: "+"
   }), _react.default.createElement(_LengthDisplay.default, {
     lengthDisplayId: "".concat(lowerCaseTitle, "-length"),
     lengthDisplayText: props.duration
-  }));
+  }), _react.default.createElement(_Button.default, {
+    btnId: "".concat(lowerCaseTitle, "-increment"),
+    btnText: "+"
+  })));
 };
 
 var _default = SetDurationContainer;
@@ -31953,6 +31955,21 @@ function (_React$Component) {
   _createClass(Container, [{
     key: "calcTimeLeft",
     value: function calcTimeLeft() {
+      var seconds = this.state.timeLeft % 60;
+      var min = (this.state.timeLeft - seconds) / 60;
+
+      if ((seconds + '').length < 2) {
+        seconds = '0' + seconds;
+      }
+
+      if ((min + '').length < 2) {
+        min = '0' + min;
+      }
+
+      this.setState({
+        timeLeftText: "".concat(min, ":").concat(seconds)
+      });
+
       if (this.state.timeLeft === 0) {
         // timer has run out!
         if (this.state.inSession) {
@@ -31974,21 +31991,6 @@ function (_React$Component) {
           });
         }
       }
-
-      var seconds = this.state.timeLeft % 60;
-      var min = (this.state.timeLeft - seconds) / 60;
-
-      if ((seconds + '').length < 2) {
-        seconds = '0' + seconds;
-      }
-
-      if ((min + '').length < 2) {
-        min = '0' + min;
-      }
-
-      this.setState({
-        timeLeftText: "".concat(min, ":").concat(seconds)
-      });
     }
   }, {
     key: "startStop",
@@ -32067,6 +32069,7 @@ function (_React$Component) {
       var decrementSessionBtn = document.getElementById('session-decrement');
       var startStopBtn = document.getElementById('start_stop');
       var resetBtn = document.getElementById('reset');
+      var beep = document.getElementById('beep').play();
       incrementBreakBtn.addEventListener('click', function () {
         return _this2.setBreakLength('+');
       });
@@ -32087,11 +32090,11 @@ function (_React$Component) {
       });
       var timer = setInterval(function () {
         if (_this2.state.timerRunning) {
+          _this2.calcTimeLeft();
+
           _this2.setState({
             timeLeft: _this2.state.timeLeft - 1
           });
-
-          _this2.calcTimeLeft();
         }
       }, 1000);
     }
@@ -32117,7 +32120,10 @@ function (_React$Component) {
       }), _react.default.createElement(_Button.default, {
         btnId: "reset",
         btnText: "Reset"
-      })));
+      })), _react.default.createElement("audio", {
+        src: "./beep.mp3",
+        id: "beep"
+      }));
     }
   }]);
 

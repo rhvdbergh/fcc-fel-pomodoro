@@ -1,12 +1,33 @@
 // colors
 
 $bg-color: rgb(202, 235, 164);
+$main-font-color: rgb(236, 189, 189);
+$small-font: 1.2em;
+$large-font: 1.5em;
+
+@mixin twoColumns {
+  padding-top: 40px;
+  width: 45%;
+}
+
+@mixin oneColumn {
+  width: 95%;
+  padding-bottom: 10px;
+}
+
+@mixin durationControls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
 body,
 html {
   height: 100%;
   position: relative;
   background: $bg-color;
+  color: $main-font-color;
+  font-size: $small-font;
 }
 
 #container {
@@ -22,4 +43,33 @@ html {
   transform: translate(-50%, -50%);
 
   background: blue;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+#break_container,
+#session_container {
+  @include twoColumns;
+}
+
+#timer_container,
+#controls_container {
+  @include oneColumn;
+}
+
+#timer_container {
+  font-size: $large-font;
+}
+
+#break_controls_container,
+#session_controls_container {
+  @include durationControls;
+}
+
+.button,
+.length_display {
+  margin: 0 10px 0 10px;
+  padding-top: 10px;
 }
