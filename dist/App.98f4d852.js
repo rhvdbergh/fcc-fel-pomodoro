@@ -31933,23 +31933,25 @@ function (_React$Component) {
     _this.state = {
       timeLeftText: '25:00',
       timeLeft: 1500,
-      // seconds
+      // seconds (default 1500)
       startStopText: 'Start',
       timerLabelText: 'Session',
       breakLength: 5,
-      // minutes
+      // minutes (default 5)
       sessionLength: 25,
-      // minutes
+      // minutes (default 25)
       inSession: false,
       inBreak: false,
-      timerRunning: false
+      timerRunning: false,
+      timer: null
     };
     _this.initialState = _this.state; // in case we need to reset to default values
 
     _this.setBreakLength = _this.setBreakLength.bind(_assertThisInitialized(_this));
     _this.setSessionLength = _this.setSessionLength.bind(_assertThisInitialized(_this));
     _this.reset = _this.reset.bind(_assertThisInitialized(_this));
-    _this.startStop = _this.startStop.bind(_assertThisInitialized(_this));
+    _this.toggleTimer = _this.toggleTimer.bind(_assertThisInitialized(_this));
+    _this.subtractTime = _this.subtractTime.bind(_assertThisInitialized(_this));
     _this.calcTimeLeft = _this.calcTimeLeft.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -31957,6 +31959,8 @@ function (_React$Component) {
   _createClass(Container, [{
     key: "calcTimeLeft",
     value: function calcTimeLeft() {
+      var _this2 = this;
+
       var seconds = this.state.timeLeft % 60;
       var min = (this.state.timeLeft - seconds) / 60;
 
@@ -31974,55 +31978,91 @@ function (_React$Component) {
 
       if (this.state.timeLeft === 0) {
         // timer has run out!
+        this.toggleTimer(); // we're going to pause for one second
+
         if (this.state.inSession) {
           var len = this.state.breakLength * 60;
+
+          if ((this.state.breakLength + '').length < 2) {
+            min = '0' + this.state.breakLength;
+          } else {
+            min = this.state.breakLength;
+          }
+
           this.setState({
             inSession: false,
             inBreak: true,
-            timeLeft: len,
-            timerLabelText: 'Break'
+            timerLabelText: 'Break',
+            timeLeft: len // timeLeftText: `${min}:00`
+
           });
+          setTimeout(function () {
+            _this2.setState({
+              timeLeftText: "".concat(min, ":00")
+            });
+
+            _this2.toggleTimer();
+          }, 1000);
         } else if (this.state.inBreak) {
           var _len = this.state.sessionLength * 60;
+
+          if ((this.state.sessionLength + '').length < 2) {
+            min = '0' + this.state.sessionLength;
+          } else {
+            min = this.state.sessionLength;
+          }
 
           this.setState({
             inSession: true,
             inBreak: false,
-            timeLeft: _len,
-            timerLabelText: 'Session'
+            timerLabelText: 'Session',
+            timeLeft: _len // timeLeftText: `${min}:00`
+
           });
+          setTimeout(function () {
+            _this2.setState({
+              timeLeftText: "".concat(min, ":00")
+            });
+
+            _this2.toggleTimer();
+          }, 1000);
         }
       }
     }
   }, {
-    key: "startStop",
-    value: function startStop() {
+    key: "subtractTime",
+    value: function subtractTime() {
+      var newTime = this.state.timeLeft - 1;
       this.setState({
-        timerRunning: !this.state.timerRunning
+        timeLeft: newTime
       });
       this.calcTimeLeft();
-
+    }
+  }, {
+    key: "toggleTimer",
+    value: function toggleTimer() {
       if (!this.state.inSession && !this.state.inBreak) {
-        this.setState({
-          timeLeft: this.state.timeLeft - 1
-        });
-        this.calcTimeLeft();
+        // timer has never been started since load or last reset
         this.setState({
           inSession: true
         });
       }
 
-      if (this.state.startStopText === 'Start') {
+      if (this.state.timerRunning) {
+        // timer is running
+        clearInterval(this.state.timer);
         this.setState({
-          startStopText: 'Stop'
+          startStopText: 'Start',
+          timerRunning: !this.state.timerRunning
         });
       } else {
+        // timer is not running
         this.setState({
-          startStopText: 'Start'
+          timer: setInterval(this.subtractTime, 1000),
+          startStopText: 'Stop',
+          timerRunning: !this.state.timerRunning
         });
       }
-
-      this.calcTimeLeft();
     }
   }, {
     key: "setBreakLength",
@@ -32065,12 +32105,17 @@ function (_React$Component) {
   }, {
     key: "reset",
     value: function reset() {
+      clearInterval(this.state.timer);
+      this.setState({
+        startStopText: 'Start',
+        timerRunning: !this.state.timerRunning
+      });
       this.setState(this.initialState);
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       var incrementBreakBtn = document.getElementById('break-increment');
       var decrementBreakBtn = document.getElementById('break-decrement');
@@ -32079,32 +32124,23 @@ function (_React$Component) {
       var startStopBtn = document.getElementById('start_stop');
       var resetBtn = document.getElementById('reset');
       incrementBreakBtn.addEventListener('click', function () {
-        return _this2.setBreakLength('+');
+        return _this3.setBreakLength('+');
       });
       decrementBreakBtn.addEventListener('click', function () {
-        return _this2.setBreakLength('-');
+        return _this3.setBreakLength('-');
       });
       incrementSessionBtn.addEventListener('click', function () {
-        return _this2.setSessionLength('+');
+        return _this3.setSessionLength('+');
       });
       decrementSessionBtn.addEventListener('click', function () {
-        return _this2.setSessionLength('-');
+        return _this3.setSessionLength('-');
       });
       startStopBtn.addEventListener('click', function () {
-        return _this2.startStop();
+        return _this3.toggleTimer();
       });
       resetBtn.addEventListener('click', function () {
-        return _this2.reset();
+        return _this3.reset();
       });
-      var timer = setInterval(function () {
-        if (_this2.state.timerRunning) {
-          _this2.calcTimeLeft();
-
-          _this2.setState({
-            timeLeft: _this2.state.timeLeft - 1
-          });
-        }
-      }, 1000);
     }
   }, {
     key: "render",

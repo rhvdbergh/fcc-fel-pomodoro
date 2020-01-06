@@ -10,14 +10,15 @@ class Container extends React.Component {
 
     this.state = {
       timeLeftText: '25:00',
-      timeLeft: 1500, // seconds
+      timeLeft: 1500, // seconds (default 1500)
       startStopText: 'Start',
       timerLabelText: 'Session',
-      breakLength: 5, // minutes
-      sessionLength: 25, // minutes
+      breakLength: 5, // minutes (default 5)
+      sessionLength: 25, // minutes (default 25)
       inSession: false,
       inBreak: false,
-      timerRunning: false
+      timerRunning: false,
+      timer: null
     };
 
     this.initialState = this.state; // in case we need to reset to default values
@@ -25,7 +26,8 @@ class Container extends React.Component {
     this.setBreakLength = this.setBreakLength.bind(this);
     this.setSessionLength = this.setSessionLength.bind(this);
     this.reset = this.reset.bind(this);
-    this.startStop = this.startStop.bind(this);
+    this.toggleTimer = this.toggleTimer.bind(this);
+    this.subtractTime = this.subtractTime.bind(this);
     this.calcTimeLeft = this.calcTimeLeft.bind(this);
   }
 
@@ -45,42 +47,73 @@ class Container extends React.Component {
 
     if (this.state.timeLeft === 0) {
       // timer has run out!
+      this.toggleTimer(); // we're going to pause for one second
       if (this.state.inSession) {
         const len = this.state.breakLength * 60;
+        if ((this.state.breakLength + '').length < 2) {
+          min = '0' + this.state.breakLength;
+        } else {
+          min = this.state.breakLength;
+        }
         this.setState({
           inSession: false,
           inBreak: true,
-          timeLeft: len,
-          timerLabelText: 'Break'
+          timerLabelText: 'Break',
+          timeLeft: len
+          // timeLeftText: `${min}:00`
         });
+        setTimeout(() => {
+          this.setState({ timeLeftText: `${min}:00` });
+          this.toggleTimer();
+        }, 1000);
       } else if (this.state.inBreak) {
         const len = this.state.sessionLength * 60;
+        if ((this.state.sessionLength + '').length < 2) {
+          min = '0' + this.state.sessionLength;
+        } else {
+          min = this.state.sessionLength;
+        }
         this.setState({
           inSession: true,
           inBreak: false,
-          timeLeft: len,
-          timerLabelText: 'Session'
+          timerLabelText: 'Session',
+          timeLeft: len
+          // timeLeftText: `${min}:00`
         });
+        setTimeout(() => {
+          this.setState({ timeLeftText: `${min}:00` });
+          this.toggleTimer();
+        }, 1000);
       }
     }
   }
 
-  startStop() {
-    this.setState({ timerRunning: !this.state.timerRunning });
+  subtractTime() {
+    let newTime = this.state.timeLeft - 1;
+    this.setState({ timeLeft: newTime });
     this.calcTimeLeft();
+  }
 
+  toggleTimer() {
     if (!this.state.inSession && !this.state.inBreak) {
-      this.setState({ timeLeft: this.state.timeLeft - 1 });
-      this.calcTimeLeft();
+      // timer has never been started since load or last reset
       this.setState({ inSession: true });
     }
-
-    if (this.state.startStopText === 'Start') {
-      this.setState({ startStopText: 'Stop' });
+    if (this.state.timerRunning) {
+      // timer is running
+      clearInterval(this.state.timer);
+      this.setState({
+        startStopText: 'Start',
+        timerRunning: !this.state.timerRunning
+      });
     } else {
-      this.setState({ startStopText: 'Start' });
+      // timer is not running
+      this.setState({
+        timer: setInterval(this.subtractTime, 1000),
+        startStopText: 'Stop',
+        timerRunning: !this.state.timerRunning
+      });
     }
-    this.calcTimeLeft();
   }
 
   setBreakLength(sign) {
@@ -111,6 +144,11 @@ class Container extends React.Component {
   }
 
   reset() {
+    clearInterval(this.state.timer);
+    this.setState({
+      startStopText: 'Start',
+      timerRunning: !this.state.timerRunning
+    });
     this.setState(this.initialState);
   }
 
@@ -132,16 +170,9 @@ class Container extends React.Component {
       this.setSessionLength('-')
     );
 
-    startStopBtn.addEventListener('click', () => this.startStop());
+    startStopBtn.addEventListener('click', () => this.toggleTimer());
 
     resetBtn.addEventListener('click', () => this.reset());
-
-    const timer = setInterval(() => {
-      if (this.state.timerRunning) {
-        this.calcTimeLeft();
-        this.setState({ timeLeft: this.state.timeLeft - 1 });
-      }
-    }, 1000);
   }
 
   render() {
