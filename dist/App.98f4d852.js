@@ -31980,6 +31980,9 @@ function (_React$Component) {
         // timer has run out!
         this.toggleTimer(); // we're going to pause for one second
 
+        var beep = document.getElementById('beep');
+        beep.play();
+
         if (this.state.inSession) {
           var len = this.state.breakLength * 60;
 
@@ -31993,8 +31996,7 @@ function (_React$Component) {
             inSession: false,
             inBreak: true,
             timerLabelText: 'Break',
-            timeLeft: len // timeLeftText: `${min}:00`
-
+            timeLeft: len
           });
           setTimeout(function () {
             _this2.setState({
@@ -32016,8 +32018,7 @@ function (_React$Component) {
             inSession: true,
             inBreak: false,
             timerLabelText: 'Session',
-            timeLeft: _len // timeLeftText: `${min}:00`
-
+            timeLeft: _len
           });
           setTimeout(function () {
             _this2.setState({
@@ -32111,6 +32112,9 @@ function (_React$Component) {
         timerRunning: !this.state.timerRunning
       });
       this.setState(this.initialState);
+      var beep = document.getElementById('beep');
+      beep.pause();
+      beep.currentTime = 0;
     }
   }, {
     key: "componentDidMount",

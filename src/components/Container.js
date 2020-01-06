@@ -48,6 +48,8 @@ class Container extends React.Component {
     if (this.state.timeLeft === 0) {
       // timer has run out!
       this.toggleTimer(); // we're going to pause for one second
+      const beep = document.getElementById('beep');
+      beep.play();
       if (this.state.inSession) {
         const len = this.state.breakLength * 60;
         if ((this.state.breakLength + '').length < 2) {
@@ -60,7 +62,6 @@ class Container extends React.Component {
           inBreak: true,
           timerLabelText: 'Break',
           timeLeft: len
-          // timeLeftText: `${min}:00`
         });
         setTimeout(() => {
           this.setState({ timeLeftText: `${min}:00` });
@@ -78,7 +79,6 @@ class Container extends React.Component {
           inBreak: false,
           timerLabelText: 'Session',
           timeLeft: len
-          // timeLeftText: `${min}:00`
         });
         setTimeout(() => {
           this.setState({ timeLeftText: `${min}:00` });
@@ -150,6 +150,9 @@ class Container extends React.Component {
       timerRunning: !this.state.timerRunning
     });
     this.setState(this.initialState);
+    const beep = document.getElementById('beep');
+    beep.pause();
+    beep.currentTime = 0;
   }
 
   componentDidMount() {
