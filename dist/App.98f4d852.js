@@ -31895,28 +31895,29 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TomatoSVG = function TomatoSVG() {
+var TomatoSVG = function TomatoSVG(props) {
   return _react.default.createElement("svg", {
     id: "tomato",
-    viewBox: "0 0 758.27 742.52",
-    width: "300",
+    viewBox: "0 0 780.27 800.52",
+    width: "350",
     height: "300"
   }, _react.default.createElement("g", {
     id: "layer1",
-    transform: "translate(-8.5443 -247.09)"
+    transform: "translate(0 -225)"
   }, _react.default.createElement("path", {
     id: "tomato_outline",
     fillRule: "evenodd",
+    strokeWidth: "30px",
+    strokeDasharray: props.dasharray,
+    strokeDashoffset: props.dashOffset,
+    stroke: "tomato",
     fill: "#000000",
     d: "m402.57 252.35c10.084 27.825-1.3514 98.821 9.0041 115.67 10.987 17.882 145.04-15.296 223.36 38.334 78.33 53.64 171.32 201.87 114.25 336.19-57.08 134.32-243.34 242.48-348.43 246.62-189.61 5.81-304.24-43.48-375.6-236.99-18.767-74.65-23.199-96.21-5.111-179.08 45.536-163.85 170.55-189.97 313.84-214.82 58.53-12.002-21.777-93.447 4.6446-105.87 22.392-3.0311 64.132-10.226 64.05-0.0468z"
   }), _react.default.createElement("path", {
-    id: "tomato_inside",
-    fillRule: "evenodd",
-    fill: "#ffffff",
-    d: "m389.63 262.02c9.6013 26.495-1.2312 96.629 25.674 114.55 24.084 16.044 138.11-14.564 212.68 36.501 74.573 51.065 163.12 192.21 108.77 320.1-54.35 127.9-231.69 230.89-331.76 234.83-180.54 5.53-289.69-41.4-357.64-225.66-17.863-71.07-22.083-91.61-4.86-170.51 43.358-156.02 162.4-180.88 298.83-204.55 55.731-11.428-20.735-88.978 4.4224-100.81 21.321-2.8862 43.964-14.148 43.886-4.4553z"
-  }), _react.default.createElement("path", {
     id: "tomato_stem",
     fillRule: "evenodd",
+    strokeWidth: "30px",
+    stroke: "tomato",
     fill: "#000000",
     d: "m337.15 263.41c-1.1133 10.585 14.285 45.707 16.497 63.541 2.2114 17.834 6.9702 30.137-11.074 34.025-18.044 3.8876-19.748 11.782-36.111 12.412-16.363 0.63076-31.974-1.3587-40.413 11.886-8.4387 13.244-17.863 23.895-24.641 36.542-6.7777 12.647 10.806 3.9332 23.903 2.3731 13.098-1.56 47.4-25.123 56.068-11.983 8.6675 13.14-14.216 88.052-4.0625 90.821 10.153 2.7685 44.158-72.698 64.983-74.209 20.825-1.5113 48.851 64.519 59.967 65.142 11.116 0.62273-1.2943-58.986 6.7266-61.406 8.021-2.4198 35.364 47.824 41.399 46.887 6.035-0.93717-6.7316-47.861-5.1894-52.51 1.5422-4.6488 26.007 7.6681 14.403-4.3075s-11.474-41.512-32.861-45.872c-21.387-4.3601-59.151 3.9296-60.87-14.566-1.7192-18.496-3.1953-86.357-9.318-104.74-5.791-3.2739-55.027 2.8185-59.406 5.9677z"
   })));
@@ -31977,6 +31978,7 @@ function (_React$Component) {
       timeLeftText: '25:00',
       timeLeft: 1500,
       // seconds (default 1500)
+      initialTime: 1500,
       startStopText: 'Start',
       timerLabelText: 'Session',
       breakLength: 5,
@@ -31986,7 +31988,10 @@ function (_React$Component) {
       inSession: false,
       inBreak: false,
       timerRunning: false,
-      timer: null
+      timer: null,
+      dashOffset: 0,
+      dasharray: 0,
+      tomatoLineLength: 0
     };
     _this.initialState = _this.state; // in case we need to reset to default values
 
@@ -32015,8 +32020,14 @@ function (_React$Component) {
         min = '0' + min;
       }
 
+      var percentageComplete = (this.state.initialTime - this.state.timeLeft) / this.state.initialTime;
+      console.log('% complete', percentageComplete);
+      var drawLength = this.state.tomatoLineLength * percentageComplete;
+      console.log('drawlength', drawLength, 'tomatoline', this.state.tomatoLineLength);
+      var newOffset = this.state.tomatoLineLength - drawLength;
       this.setState({
-        timeLeftText: "".concat(min, ":").concat(seconds)
+        timeLeftText: "".concat(min, ":").concat(seconds),
+        dashOffset: newOffset
       });
 
       if (this.state.timeLeft === 0) {
@@ -32039,7 +32050,8 @@ function (_React$Component) {
             inSession: false,
             inBreak: true,
             timerLabelText: 'Break',
-            timeLeft: len
+            timeLeft: len,
+            initialTime: len
           });
           setTimeout(function () {
             _this2.setState({
@@ -32061,7 +32073,8 @@ function (_React$Component) {
             inSession: true,
             inBreak: false,
             timerLabelText: 'Session',
-            timeLeft: _len
+            timeLeft: _len,
+            initialTime: _len
           });
           setTimeout(function () {
             _this2.setState({
@@ -32087,8 +32100,19 @@ function (_React$Component) {
     value: function toggleTimer() {
       if (!this.state.inSession && !this.state.inBreak) {
         // timer has never been started since load or last reset
+        // calculate offset
+        var tomatoOutline = document.getElementById('tomato_outline');
+        var tomatoLineLength = tomatoOutline.getTotalLength();
         this.setState({
-          inSession: true
+          tomatoLineLength: tomatoLineLength
+        });
+        var newOffset = this.state.tomatoLineLength;
+        var newDasharray = this.state.tomatoLineLength;
+        this.setState({
+          inSession: true,
+          dashOffset: newOffset,
+          dasharray: newDasharray,
+          initialTime: this.state.timeLeft
         });
       }
 
@@ -32194,15 +32218,18 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", {
         id: "container"
-      }, _react.default.createElement(_SetDurationContainer.default, {
+      }, _react.default.createElement(_Timer.default, {
+        timerLabelText: this.state.timerLabelText,
+        timeLeft: this.state.timeLeftText
+      }), _react.default.createElement(_TomatoSVG.default, {
+        dasharray: this.state.dasharray,
+        dashOffset: this.state.dashOffset
+      }), _react.default.createElement(_SetDurationContainer.default, {
         title: "Break",
         duration: this.state.breakLength
       }), _react.default.createElement(_SetDurationContainer.default, {
         title: "Session",
         duration: this.state.sessionLength
-      }), _react.default.createElement(_Timer.default, {
-        timerLabelText: this.state.timerLabelText,
-        timeLeft: this.state.timeLeftText
       }), _react.default.createElement("div", {
         id: "controls_container"
       }, _react.default.createElement(_Button.default, {
@@ -32211,7 +32238,7 @@ function (_React$Component) {
       }), _react.default.createElement(_Button.default, {
         btnId: "reset",
         btnText: "Reset"
-      })), _react.default.createElement(_TomatoSVG.default, null), _react.default.createElement("audio", {
+      })), _react.default.createElement("audio", {
         src: "./beep.mp3",
         id: "beep"
       }));

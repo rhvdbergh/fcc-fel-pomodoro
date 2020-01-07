@@ -12,6 +12,7 @@ class Container extends React.Component {
     this.state = {
       timeLeftText: '25:00',
       timeLeft: 1500, // seconds (default 1500)
+      initialTime: 1500,
       startStopText: 'Start',
       timerLabelText: 'Session',
       breakLength: 5, // minutes (default 5)
@@ -19,7 +20,10 @@ class Container extends React.Component {
       inSession: false,
       inBreak: false,
       timerRunning: false,
-      timer: null
+      timer: null,
+      dashOffset: 0,
+      dasharray: 0,
+      tomatoLineLength: 0
     };
 
     this.initialState = this.state; // in case we need to reset to default values
@@ -44,7 +48,22 @@ class Container extends React.Component {
       min = '0' + min;
     }
 
-    this.setState({ timeLeftText: `${min}:${seconds}` });
+    let percentageComplete =
+      (this.state.initialTime - this.state.timeLeft) / this.state.initialTime;
+    console.log('% complete', percentageComplete);
+    let drawLength = this.state.tomatoLineLength * percentageComplete;
+    console.log(
+      'drawlength',
+      drawLength,
+      'tomatoline',
+      this.state.tomatoLineLength
+    );
+    let newOffset = this.state.tomatoLineLength - drawLength;
+
+    this.setState({
+      timeLeftText: `${min}:${seconds}`,
+      dashOffset: newOffset
+    });
 
     if (this.state.timeLeft === 0) {
       // timer has run out!
@@ -62,7 +81,8 @@ class Container extends React.Component {
           inSession: false,
           inBreak: true,
           timerLabelText: 'Break',
-          timeLeft: len
+          timeLeft: len,
+          initialTime: len
         });
         setTimeout(() => {
           this.setState({ timeLeftText: `${min}:00` });
@@ -79,7 +99,8 @@ class Container extends React.Component {
           inSession: true,
           inBreak: false,
           timerLabelText: 'Session',
-          timeLeft: len
+          timeLeft: len,
+          initialTime: len
         });
         setTimeout(() => {
           this.setState({ timeLeftText: `${min}:00` });
@@ -98,7 +119,19 @@ class Container extends React.Component {
   toggleTimer() {
     if (!this.state.inSession && !this.state.inBreak) {
       // timer has never been started since load or last reset
-      this.setState({ inSession: true });
+      // calculate offset
+      const tomatoOutline = document.getElementById('tomato_outline');
+      const tomatoLineLength = tomatoOutline.getTotalLength();
+      this.setState({ tomatoLineLength: tomatoLineLength });
+
+      let newOffset = this.state.tomatoLineLength;
+      let newDasharray = this.state.tomatoLineLength;
+      this.setState({
+        inSession: true,
+        dashOffset: newOffset,
+        dasharray: newDasharray,
+        initialTime: this.state.timeLeft
+      });
     }
     if (this.state.timerRunning) {
       // timer is running
@@ -182,20 +215,23 @@ class Container extends React.Component {
   render() {
     return (
       <div id="container">
+        <Timer
+          timerLabelText={this.state.timerLabelText}
+          timeLeft={this.state.timeLeftText}
+        />
+        <TomatoSVG
+          dasharray={this.state.dasharray}
+          dashOffset={this.state.dashOffset}
+        />
         <SetDurationContainer title="Break" duration={this.state.breakLength} />
         <SetDurationContainer
           title="Session"
           duration={this.state.sessionLength}
         />
-        <Timer
-          timerLabelText={this.state.timerLabelText}
-          timeLeft={this.state.timeLeftText}
-        />
         <div id="controls_container">
           <Button btnId="start_stop" btnText={this.state.startStopText} />
           <Button btnId="reset" btnText="Reset" />
         </div>
-        <TomatoSVG />
         <audio src="./beep.mp3" id="beep"></audio>
       </div>
     );

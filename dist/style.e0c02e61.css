@@ -2,31 +2,29 @@ body,
 html {
   height: 100%;
   position: relative;
-  background: whitesmoke;
+  background: white;
   color: blue;
   font-size: 1.2em;
 }
 
 #tomato {
-  transform: translate(0, -100%);
+  transition: all 1s ease;
+  transform: translate(0, -75%);
   z-index: -1;
 }
 
 #tomato_stem {
-  fill: tomato;
+  fill: whitesmoke;
 }
 
 #tomato_outline {
-  fill: tomato;
-}
-
-#tomato_inside {
   fill: whitesmoke;
 }
 
 #container {
-  width: 400px;
-  height: 400px;
+  width: 320px;
+  height: 450px;
+  background-color: azure;
   text-align: center;
   position: absolute;
   top: 50%;
@@ -41,16 +39,21 @@ html {
 #session_container {
   padding-top: 40px;
   width: 45%;
+  transform: translateY(-230%);
 }
 
-#timer_container,
 #controls_container {
-  width: 95%;
-  padding-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  transform: translateY(-600%);
 }
 
 #timer_container {
+  width: 95%;
+  padding-bottom: 10px;
   font-size: 1.5em;
+  margin-top: 100px;
 }
 
 #break_controls_container,
