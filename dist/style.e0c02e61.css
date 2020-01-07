@@ -2,9 +2,26 @@ body,
 html {
   height: 100%;
   position: relative;
-  background: #caeba4;
-  color: #ecbdbd;
+  background: whitesmoke;
+  color: blue;
   font-size: 1.2em;
+}
+
+#tomato {
+  transform: translate(0, -100%);
+  z-index: -1;
+}
+
+#tomato_stem {
+  fill: tomato;
+}
+
+#tomato_outline {
+  fill: tomato;
+}
+
+#tomato_inside {
+  fill: whitesmoke;
 }
 
 #container {
@@ -15,7 +32,6 @@ html {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: blue;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;

@@ -3,6 +3,7 @@ import React from 'react';
 import Button from './Button';
 import SetDurationContainer from './SetDurationContainer';
 import Timer from './Timer';
+import TomatoSVG from './TomatoSVG';
 
 class Container extends React.Component {
   constructor(props) {
@@ -194,6 +195,7 @@ class Container extends React.Component {
           <Button btnId="start_stop" btnText={this.state.startStopText} />
           <Button btnId="reset" btnText="Reset" />
         </div>
+        <TomatoSVG />
         <audio src="./beep.mp3" id="beep"></audio>
       </div>
     );

@@ -1,7 +1,7 @@
 // colors
 
-$bg-color: rgb(202, 235, 164);
-$main-font-color: rgb(236, 189, 189);
+$bg-color: whitesmoke;
+$main-font-color: blue;
 $small-font: 1.2em;
 $large-font: 1.5em;
 
@@ -30,6 +30,23 @@ html {
   font-size: $small-font;
 }
 
+#tomato {
+  transform: translate(0, -100%);
+  z-index: -1;
+}
+
+#tomato_stem {
+  fill: tomato;
+}
+
+#tomato_outline {
+  fill: tomato;
+}
+
+#tomato_inside {
+  fill: whitesmoke;
+}
+
 #container {
   width: 400px;
   height: 400px;
@@ -41,8 +58,6 @@ html {
   left: 50%;
 
   transform: translate(-50%, -50%);
-
-  background: blue;
 
   display: flex;
   flex-wrap: wrap;
