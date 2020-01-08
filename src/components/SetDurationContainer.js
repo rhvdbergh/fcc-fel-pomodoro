@@ -9,10 +9,7 @@ const SetDurationContainer = props => {
 
   return (
     <div id={`${lowerCaseTitle}_container`}>
-      <Label
-        labelId={`${lowerCaseTitle}-label`}
-        labelText={`${props.title} Length`}
-      />
+      <Label labelId={`${lowerCaseTitle}-label`} labelText={`${props.title}`} />
       <div id={`${lowerCaseTitle}_controls_container`}>
         <Button btnId={`${lowerCaseTitle}-decrement`} btnText="-" />
         <LengthDisplay

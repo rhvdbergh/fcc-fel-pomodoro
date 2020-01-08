@@ -223,14 +223,19 @@ class Container extends React.Component {
           dasharray={this.state.dasharray}
           dashOffset={this.state.dashOffset}
         />
-        <SetDurationContainer title="Break" duration={this.state.breakLength} />
-        <SetDurationContainer
-          title="Session"
-          duration={this.state.sessionLength}
-        />
-        <div id="controls_container">
-          <Button btnId="start_stop" btnText={this.state.startStopText} />
-          <Button btnId="reset" btnText="Reset" />
+        <div id="controls_wrapper">
+          <SetDurationContainer
+            title="Break"
+            duration={this.state.breakLength}
+          />
+          <SetDurationContainer
+            title="Session"
+            duration={this.state.sessionLength}
+          />
+          <div id="controls_container">
+            <Button btnId="start_stop" btnText={this.state.startStopText} />
+            <Button btnId="reset" btnText="Reset" />
+          </div>
         </div>
         <audio src="./beep.mp3" id="beep"></audio>
       </div>

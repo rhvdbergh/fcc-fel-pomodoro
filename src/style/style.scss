@@ -1,14 +1,14 @@
 // colors
 
 $bg-color: white;
-$main-font-color: blue;
-$small-font: 1.2em;
+$main-font-color: rgb(26, 13, 13);
+$small-font: 1.1em;
 $large-font: 1.5em;
 
 @mixin twoColumns {
-  padding-top: 40px;
+  padding-top: 20px;
   width: 45%;
-  transform: translateY(-230%);
+  // transform: translateY(-230%);
 }
 
 @mixin oneColumn {
@@ -29,11 +29,12 @@ html {
   background: $bg-color;
   color: $main-font-color;
   font-size: $small-font;
+  font-family: 'Sonsie One', cursive;
 }
 
 #tomato {
   transition: all 1s ease;
-  transform: translate(0, -75%);
+  transform: translate(0, -80%);
   z-index: -1;
 }
 
@@ -64,6 +65,20 @@ html {
   justify-content: space-evenly;
 }
 
+#controls_wrapper {
+  background-color: rgb(47, 193, 241);
+  transform: translateY(-140%);
+  border-radius: 20px;
+  border-right: 3px solid $main-font-color;
+  border-left: 12px solid $main-font-color;
+  border-top: 8px solid $main-font-color;
+  border-bottom: 5px solid $main-font-color;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 #break_container,
 #session_container {
   @include twoColumns;
@@ -72,13 +87,15 @@ html {
 #controls_container {
   // @include twoColumns;
   @include durationControls;
-  transform: translateY(-600%);
+  // transform: translateY(-600%);
+  padding-bottom: 20px;
 }
 
 #timer_container {
   @include oneColumn;
   font-size: $large-font;
   margin-top: 100px;
+  font-family: 'Baloo Bhai', cursive;
 }
 
 #break_controls_container,

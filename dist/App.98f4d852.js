@@ -31817,7 +31817,7 @@ var SetDurationContainer = function SetDurationContainer(props) {
     id: "".concat(lowerCaseTitle, "_container")
   }, _react.default.createElement(_Label.default, {
     labelId: "".concat(lowerCaseTitle, "-label"),
-    labelText: "".concat(props.title, " Length")
+    labelText: "".concat(props.title)
   }), _react.default.createElement("div", {
     id: "".concat(lowerCaseTitle, "_controls_container")
   }, _react.default.createElement(_Button.default, {
@@ -32224,7 +32224,9 @@ function (_React$Component) {
       }), _react.default.createElement(_TomatoSVG.default, {
         dasharray: this.state.dasharray,
         dashOffset: this.state.dashOffset
-      }), _react.default.createElement(_SetDurationContainer.default, {
+      }), _react.default.createElement("div", {
+        id: "controls_wrapper"
+      }, _react.default.createElement(_SetDurationContainer.default, {
         title: "Break",
         duration: this.state.breakLength
       }), _react.default.createElement(_SetDurationContainer.default, {
@@ -32238,7 +32240,7 @@ function (_React$Component) {
       }), _react.default.createElement(_Button.default, {
         btnId: "reset",
         btnText: "Reset"
-      })), _react.default.createElement("audio", {
+      }))), _react.default.createElement("audio", {
         src: "./beep.mp3",
         id: "beep"
       }));
@@ -32294,7 +32296,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62668" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59179" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
