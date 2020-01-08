@@ -5,6 +5,7 @@ import SetDurationContainer from './SetDurationContainer';
 import Timer from './Timer';
 import TomatoSVG from './TomatoSVG';
 import SplatSVG from './SplatSVG';
+import Attribution from './Attribution';
 
 class Container extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Container extends React.Component {
       inBreak: false,
       timerRunning: false,
       timer: null,
-      dashOffset: 0,
+      dashOffset: 0, // for tomato animation
       leafDashOffset: 0,
       dasharray: 0,
       leafDasharray: 0,
@@ -45,10 +46,12 @@ class Container extends React.Component {
     let seconds = this.state.timeLeft % 60;
     let min = (this.state.timeLeft - seconds) / 60;
 
+    // add 0 to front if single digit
     if ((seconds + '').length < 2) {
       seconds = '0' + seconds;
     }
 
+    // add 0 if single digit
     if ((min + '').length < 2) {
       min = '0' + min;
     }
@@ -60,6 +63,7 @@ class Container extends React.Component {
     let newOffset = this.state.tomatoLineLength - drawLength;
     drawLength = this.state.leafLineLength * percentageComplete;
     let newLeafOffset = this.state.leafLineLength - drawLength;
+
     this.setState({
       timeLeftText: `${min}:${seconds}`,
       dashOffset: newOffset,
@@ -68,11 +72,13 @@ class Container extends React.Component {
 
     if (this.state.timeLeft === 0) {
       // timer has run out!
-      this.toggleTimer(); // we're going to pause for one second
+      this.toggleTimer(); // we're going to pause for one second, so turn off the timer for now
       const beep = document.getElementById('beep');
       beep.play();
       this.setState({ showSplat: true });
+      // since the time has run out, show the splash instead of the tomato
       setTimeout(() => this.setState({ showSplat: false }), 5000);
+      // now switch from session to break and vice versa
       if (this.state.inSession) {
         const len = this.state.breakLength * 60;
         if ((this.state.breakLength + '').length < 2) {
@@ -87,6 +93,8 @@ class Container extends React.Component {
           timeLeft: len,
           initialTime: len
         });
+        // wait a second to display the correct time
+        // then turn the timer back on
         setTimeout(() => {
           this.setState({ timeLeftText: `${min}:00` });
           this.toggleTimer();
@@ -105,6 +113,7 @@ class Container extends React.Component {
           timeLeft: len,
           initialTime: len
         });
+        // wait for a sec then turn the timer back on
         setTimeout(() => {
           this.setState({ timeLeftText: `${min}:00` });
           this.toggleTimer();
@@ -124,6 +133,8 @@ class Container extends React.Component {
       // timer has never been started since load or last reset
 
       // calculate offset for the tomato animation
+      // this needs to be done the first time the timer is run
+      // hence the first time the timer is toggled
       const tomatoOutline = document.getElementById('tomato_outline');
       const leafOutline = document.getElementById('tomato_stem');
       const tomatoLineLength = tomatoOutline.getTotalLength();
@@ -137,6 +148,7 @@ class Container extends React.Component {
       let newDasharray = this.state.tomatoLineLength;
       let newLeafOffset = this.state.leafLineLength;
       let newLeafDasharray = this.state.leafLineLength;
+
       this.setState({
         inSession: true,
         dashOffset: newOffset,
@@ -146,6 +158,8 @@ class Container extends React.Component {
         initialTime: this.state.timeLeft
       });
     }
+
+    // now let's toggle the timer between states
     if (this.state.timerRunning) {
       // timer is running
       clearInterval(this.state.timer);
@@ -182,6 +196,7 @@ class Container extends React.Component {
       this.setState({ sessionLength: this.state.sessionLength + 1 });
     }
 
+    // automatically adjust the session clock if the clock hasn't been run before
     if (!this.state.inSession && !this.state.inBreak) {
       const len = this.state.sessionLength * 60;
 
@@ -256,18 +271,7 @@ class Container extends React.Component {
             <Button btnId="reset" btnText="Reset" />
           </div>
         </div>
-        <div id="attribution">
-          This pomodoro clock was built with{' '}
-          <a href="https://reactjs.org/">React</a> as a{' '}
-          <a href="https://freecodecamp.org">freeCodeCamp</a> project. Sound
-          effects were obtained from{' '}
-          <a href="https://www.zapsplat.com">https://www.zapsplat.com</a>. If
-          you would like to see more of my work, connect with me on{' '}
-          <a href="https://www.twitter.com/ronaldvdb">Twitter</a>,{' '}
-          <a href="https://www.linkedin.com/in/ronaldvanderbergh">LinkedIn</a>,{' '}
-          <a href="https://github.com/rhvdbergh">or GitHub</a>. You can also
-          read my blog at <a href="https://vanderbergh.com">vanderbergh.com</a>.
-        </div>
+        <Attribution />
         <audio src="./beep.mp3" id="beep"></audio>
       </div>
     );

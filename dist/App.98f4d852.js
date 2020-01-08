@@ -31978,6 +31978,40 @@ var SplatSVG = function SplatSVG() {
 
 var _default = SplatSVG;
 exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/Attribution.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Attribution = function Attribution() {
+  return _react.default.createElement("div", {
+    id: "attribution"
+  }, "This pomodoro clock was built with", ' ', _react.default.createElement("a", {
+    href: "https://reactjs.org/"
+  }, "React"), " as a", ' ', _react.default.createElement("a", {
+    href: "https://freecodecamp.org"
+  }, "freeCodeCamp"), " project. Sound effects were obtained from", ' ', _react.default.createElement("a", {
+    href: "https://www.zapsplat.com"
+  }, "https://www.zapsplat.com"), ". If you would like to see more of my work, connect with me on", ' ', _react.default.createElement("a", {
+    href: "https://www.twitter.com/ronaldvdb"
+  }, "Twitter"), ",", ' ', _react.default.createElement("a", {
+    href: "https://www.linkedin.com/in/ronaldvanderbergh"
+  }, "LinkedIn"), ",", ' ', _react.default.createElement("a", {
+    href: "https://github.com/rhvdbergh"
+  }, "or GitHub"), ". You can also read my blog at ", _react.default.createElement("a", {
+    href: "https://vanderbergh.com"
+  }, "vanderbergh.com"), ".");
+};
+
+var _default = Attribution;
+exports.default = _default;
 },{"react":"../node_modules/react/index.js"}],"components/Container.js":[function(require,module,exports) {
 "use strict";
 
@@ -31997,6 +32031,8 @@ var _Timer = _interopRequireDefault(require("./Timer"));
 var _TomatoSVG = _interopRequireDefault(require("./TomatoSVG"));
 
 var _SplatSVG = _interopRequireDefault(require("./SplatSVG"));
+
+var _Attribution = _interopRequireDefault(require("./Attribution"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32046,6 +32082,7 @@ function (_React$Component) {
       timerRunning: false,
       timer: null,
       dashOffset: 0,
+      // for tomato animation
       leafDashOffset: 0,
       dasharray: 0,
       leafDasharray: 0,
@@ -32070,11 +32107,12 @@ function (_React$Component) {
       var _this2 = this;
 
       var seconds = this.state.timeLeft % 60;
-      var min = (this.state.timeLeft - seconds) / 60;
+      var min = (this.state.timeLeft - seconds) / 60; // add 0 to front if single digit
 
       if ((seconds + '').length < 2) {
         seconds = '0' + seconds;
-      }
+      } // add 0 if single digit
+
 
       if ((min + '').length < 2) {
         min = '0' + min;
@@ -32094,18 +32132,19 @@ function (_React$Component) {
 
       if (this.state.timeLeft === 0) {
         // timer has run out!
-        this.toggleTimer(); // we're going to pause for one second
+        this.toggleTimer(); // we're going to pause for one second, so turn off the timer for now
 
         var beep = document.getElementById('beep');
         beep.play();
         this.setState({
           showSplat: true
-        });
+        }); // since the time has run out, show the splash instead of the tomato
+
         setTimeout(function () {
           return _this2.setState({
             showSplat: false
           });
-        }, 5000);
+        }, 5000); // now switch from session to break and vice versa
 
         if (this.state.inSession) {
           var len = this.state.breakLength * 60;
@@ -32122,7 +32161,9 @@ function (_React$Component) {
             timerLabelText: 'Break',
             timeLeft: len,
             initialTime: len
-          });
+          }); // wait a second to display the correct time
+          // then turn the timer back on
+
           setTimeout(function () {
             _this2.setState({
               timeLeftText: "".concat(min, ":00")
@@ -32145,7 +32186,8 @@ function (_React$Component) {
             timerLabelText: 'Session',
             timeLeft: _len,
             initialTime: _len
-          });
+          }); // wait for a sec then turn the timer back on
+
           setTimeout(function () {
             _this2.setState({
               timeLeftText: "".concat(min, ":00")
@@ -32171,6 +32213,8 @@ function (_React$Component) {
       if (!this.state.inSession && !this.state.inBreak) {
         // timer has never been started since load or last reset
         // calculate offset for the tomato animation
+        // this needs to be done the first time the timer is run
+        // hence the first time the timer is toggled
         var tomatoOutline = document.getElementById('tomato_outline');
         var leafOutline = document.getElementById('tomato_stem');
         var tomatoLineLength = tomatoOutline.getTotalLength();
@@ -32191,7 +32235,8 @@ function (_React$Component) {
           leafDasharray: newLeafDasharray,
           initialTime: this.state.timeLeft
         });
-      }
+      } // now let's toggle the timer between states
+
 
       if (this.state.timerRunning) {
         // timer is running
@@ -32237,7 +32282,8 @@ function (_React$Component) {
         this.setState({
           sessionLength: this.state.sessionLength + 1
         });
-      }
+      } // automatically adjust the session clock if the clock hasn't been run before
+
 
       if (!this.state.inSession && !this.state.inBreak) {
         var len = this.state.sessionLength * 60;
@@ -32319,23 +32365,7 @@ function (_React$Component) {
       }), _react.default.createElement(_Button.default, {
         btnId: "reset",
         btnText: "Reset"
-      }))), _react.default.createElement("div", {
-        id: "attribution"
-      }, "This pomodoro clock was built with", ' ', _react.default.createElement("a", {
-        href: "https://reactjs.org/"
-      }, "React"), " as a", ' ', _react.default.createElement("a", {
-        href: "https://freecodecamp.org"
-      }, "freeCodeCamp"), " project. Sound effects were obtained from", ' ', _react.default.createElement("a", {
-        href: "https://www.zapsplat.com"
-      }, "https://www.zapsplat.com"), ". If you would like to see more of my work, connect with me on", ' ', _react.default.createElement("a", {
-        href: "https://www.twitter.com/ronaldvdb"
-      }, "Twitter"), ",", ' ', _react.default.createElement("a", {
-        href: "https://www.linkedin.com/in/ronaldvanderbergh"
-      }, "LinkedIn"), ",", ' ', _react.default.createElement("a", {
-        href: "https://github.com/rhvdbergh"
-      }, "or GitHub"), ". You can also read my blog at ", _react.default.createElement("a", {
-        href: "https://vanderbergh.com"
-      }, "vanderbergh.com"), "."), _react.default.createElement("audio", {
+      }))), _react.default.createElement(_Attribution.default, null), _react.default.createElement("audio", {
         src: "./beep.mp3",
         id: "beep"
       }));
@@ -32347,7 +32377,7 @@ function (_React$Component) {
 
 var _default = Container;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Button":"components/Button.js","./SetDurationContainer":"components/SetDurationContainer.js","./Timer":"components/Timer.js","./TomatoSVG":"components/TomatoSVG.js","./SplatSVG":"components/SplatSVG.js"}],"components/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Button":"components/Button.js","./SetDurationContainer":"components/SetDurationContainer.js","./Timer":"components/Timer.js","./TomatoSVG":"components/TomatoSVG.js","./SplatSVG":"components/SplatSVG.js","./Attribution":"components/Attribution.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -32391,7 +32421,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54892" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55544" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
