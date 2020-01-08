@@ -32319,7 +32319,23 @@ function (_React$Component) {
       }), _react.default.createElement(_Button.default, {
         btnId: "reset",
         btnText: "Reset"
-      }))), _react.default.createElement("audio", {
+      }))), _react.default.createElement("div", {
+        id: "attribution"
+      }, "This pomodoro clock was built with", ' ', _react.default.createElement("a", {
+        href: "https://reactjs.org/"
+      }, "React"), " as a", ' ', _react.default.createElement("a", {
+        href: "https://freecodecamp.org"
+      }, "freeCodeCamp"), " project. Sound effects were obtained from", ' ', _react.default.createElement("a", {
+        href: "https://www.zapsplat.com"
+      }, "https://www.zapsplat.com"), ". If you would like to see more of my work, connect with me on", ' ', _react.default.createElement("a", {
+        href: "https://www.twitter.com/ronaldvdb"
+      }, "Twitter"), ",", ' ', _react.default.createElement("a", {
+        href: "https://www.linkedin.com/in/ronaldvanderbergh"
+      }, "LinkedIn"), ",", ' ', _react.default.createElement("a", {
+        href: "https://github.com/rhvdbergh"
+      }, "or GitHub"), ". You can also read my blog at ", _react.default.createElement("a", {
+        href: "https://vanderbergh.com"
+      }, "vanderbergh.com"), "."), _react.default.createElement("audio", {
         src: "./beep.mp3",
         id: "beep"
       }));
@@ -32375,7 +32391,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51198" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54892" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

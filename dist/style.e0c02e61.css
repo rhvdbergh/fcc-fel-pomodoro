@@ -136,6 +136,12 @@ html {
   background-color: #90ee908c;
 }
 
+#attribution {
+  font-family: "Baloo Bhai", cursive;
+  font-size: 0.7em;
+  transform: translateY(-200%);
+}
+
 @media only screen and (max-height: 600px) {
   #tomato {
     transform: translate(0, -80%) scale(0.8);
