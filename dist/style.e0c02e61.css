@@ -49,6 +49,9 @@ html {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 #controls_wrapper {
