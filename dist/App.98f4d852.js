@@ -31925,6 +31925,57 @@ var TomatoSVG = function TomatoSVG(props) {
 
 var _default = TomatoSVG;
 exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/SplatSVG.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SplatSVG = function SplatSVG() {
+  return _react.default.createElement("svg", {
+    id: "splat",
+    viewBox: "0 0 780.27 800.52",
+    width: "350",
+    height: "300"
+  }, _react.default.createElement("g", {
+    id: "layer1"
+  }, _react.default.createElement("path", {
+    id: "path2854",
+    fill: "tomato",
+    d: "m413.16 350.02c-23.101 19.771 61.73 47.74 33.521 64.939-23.275 14.191-26.896-62.627-52.807-44.706-12.801 8.8541 17.065 30.802 2.7781 37.168-15.687 6.9894-12.546-31.56-29.567-28.058-28.17 5.796 26.144 82.204-6.4104 85.947-31.511 3.6233 10.353-83.045-15.217-83.642-15.172-0.35448-6.8397 36.231-22.447 33.225-17.137-3.3014 10.589-32.46-4.6356-40.623-46.913-25.152-34.681 79.347-66.137 62.895-37.805-19.774 59.564-47.806 40.811-84.733-12.774-25.154-25.832 39.968-45.105 18.57-16.05-17.82 51.352-16.767 24.169-42.413-11.338-10.697-28.247 26.769-33.593 11.933-5.87-16.29 32.74-12.4 32.987-29.872 0.58691-41.493-85.174 16.421-87.154-10.66-2.3716-32.436 82.772 12.928 87.294-22.285 1.9697-15.337-83.169-7.1912-78.8-21.852 4.797-16.097 73.196 18.511 78.995 2.3159 5.2819-14.75-32.768-21.188-24.589-34.469 8.9807-14.583 26.296 18.056 37.522 5.0253 10.224-11.868-21.882-23.249-9.7189-33.066 13.354-10.779 23.872 31.887 37.839 22.239 29.459-20.348-49.013-72.087-21.183-83.799 30.715-12.926 10.282 75.01 47.299 68.923 15.133-2.4884-9.3061-35.255 6.2298-36.442 17.059-1.3032-4.5256 34.149 12.859 35.86 15.833 1.5588 7.9454-34.686 22.915-30.85 16.436 4.2114-11.026 38.788 4.8411 44.014 14.451 4.7596 21.862-39.51 35.761-31.903 15.26 8.3523-23.05 36.446-9.7743 47.319 12.091 9.9028 39.989-58.632 58.934-36.562 19.676 22.922-60.819 32.117-39.332 48.57 12.305 9.422 28.069-13.727 33.593 0.55871 6.0657 15.685-34.122 11.815-30.449 28.149 7.8511 34.913 58.942-25.629 65.03 0.34459 9.8866 42.181-39.678 2.8547-54.543 27.597-13.766 22.915 68.843 18.916 65.025 34.113-6.8888 27.418-65.21-44.169-75.694-4.6719-22.829 19.903 51.29 35.248 40.226 52.143-18.18 9.2252-41.062-44.077-61.473-31.242z"
+  }), _react.default.createElement("path", {
+    id: "path2859",
+    fill: "tomato",
+    d: "m178.8 235.23a6.2637 6.2637 0 1 1 -12.527 0 6.2637 6.2637 0 1 1 12.527 0z",
+    transform: "matrix(1.1741 0 0 1.1741 -25.623 -24.418)"
+  }), _react.default.createElement("path", {
+    id: "path2857",
+    fill: "tomato",
+    d: "m178.8 235.23a6.2637 6.2637 0 1 1 -12.527 0 6.2637 6.2637 0 1 1 12.527 0z",
+    transform: "matrix(1.1741 0 0 1.1741 275.16 -36.184)"
+  }), _react.default.createElement("path", {
+    id: "path2861",
+    fill: "tomato",
+    d: "m389.48 165.76s5.7199-61.355 23.049-54.439c16.92 6.7524-23.049 54.439-23.049 54.439z"
+  }), _react.default.createElement("path", {
+    id: "path2864",
+    fill: "tomato",
+    d: "m482.08 302.11s60.744-10.355 58.549 8.174c-2.1432 18.091-58.549-8.174-58.549-8.174z"
+  }), _react.default.createElement("path", {
+    id: "path2866",
+    fill: "tomato",
+    d: "m225.98 355.06s-47.429 39.34-54.792 22.196c-7.1892-16.739 54.792-22.196 54.792-22.196z"
+  })));
+};
+
+var _default = SplatSVG;
+exports.default = _default;
 },{"react":"../node_modules/react/index.js"}],"components/Container.js":[function(require,module,exports) {
 "use strict";
 
@@ -31942,6 +31993,8 @@ var _SetDurationContainer = _interopRequireDefault(require("./SetDurationContain
 var _Timer = _interopRequireDefault(require("./Timer"));
 
 var _TomatoSVG = _interopRequireDefault(require("./TomatoSVG"));
+
+var _SplatSVG = _interopRequireDefault(require("./SplatSVG"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31991,7 +32044,8 @@ function (_React$Component) {
       timer: null,
       dashOffset: 0,
       dasharray: 0,
-      tomatoLineLength: 0
+      tomatoLineLength: 0,
+      showSplat: false
     };
     _this.initialState = _this.state; // in case we need to reset to default values
 
@@ -32036,6 +32090,14 @@ function (_React$Component) {
 
         var beep = document.getElementById('beep');
         beep.play();
+        this.setState({
+          showSplat: true
+        });
+        setTimeout(function () {
+          return _this2.setState({
+            showSplat: false
+          });
+        }, 3000);
 
         if (this.state.inSession) {
           var len = this.state.breakLength * 60;
@@ -32221,7 +32283,7 @@ function (_React$Component) {
       }, _react.default.createElement(_Timer.default, {
         timerLabelText: this.state.timerLabelText,
         timeLeft: this.state.timeLeftText
-      }), _react.default.createElement(_TomatoSVG.default, {
+      }), this.state.showSplat ? _react.default.createElement(_SplatSVG.default, null) : _react.default.createElement(_TomatoSVG.default, {
         dasharray: this.state.dasharray,
         dashOffset: this.state.dashOffset
       }), _react.default.createElement("div", {
@@ -32252,7 +32314,7 @@ function (_React$Component) {
 
 var _default = Container;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Button":"components/Button.js","./SetDurationContainer":"components/SetDurationContainer.js","./Timer":"components/Timer.js","./TomatoSVG":"components/TomatoSVG.js"}],"components/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Button":"components/Button.js","./SetDurationContainer":"components/SetDurationContainer.js","./Timer":"components/Timer.js","./TomatoSVG":"components/TomatoSVG.js","./SplatSVG":"components/SplatSVG.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -32296,7 +32358,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52605" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62512" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

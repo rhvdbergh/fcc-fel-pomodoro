@@ -4,6 +4,7 @@ import Button from './Button';
 import SetDurationContainer from './SetDurationContainer';
 import Timer from './Timer';
 import TomatoSVG from './TomatoSVG';
+import SplatSVG from './SplatSVG';
 
 class Container extends React.Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class Container extends React.Component {
       timer: null,
       dashOffset: 0,
       dasharray: 0,
-      tomatoLineLength: 0
+      tomatoLineLength: 0,
+      showSplat: false
     };
 
     this.initialState = this.state; // in case we need to reset to default values
@@ -70,6 +72,8 @@ class Container extends React.Component {
       this.toggleTimer(); // we're going to pause for one second
       const beep = document.getElementById('beep');
       beep.play();
+      this.setState({ showSplat: true });
+      setTimeout(() => this.setState({ showSplat: false }), 3000);
       if (this.state.inSession) {
         const len = this.state.breakLength * 60;
         if ((this.state.breakLength + '').length < 2) {
@@ -219,10 +223,14 @@ class Container extends React.Component {
           timerLabelText={this.state.timerLabelText}
           timeLeft={this.state.timeLeftText}
         />
-        <TomatoSVG
-          dasharray={this.state.dasharray}
-          dashOffset={this.state.dashOffset}
-        />
+        {this.state.showSplat ? (
+          <SplatSVG />
+        ) : (
+          <TomatoSVG
+            dasharray={this.state.dasharray}
+            dashOffset={this.state.dashOffset}
+          />
+        )}
         <div id="controls_wrapper">
           <SetDurationContainer
             title="Break"
