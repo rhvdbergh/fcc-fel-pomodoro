@@ -163,3 +163,9 @@ html {
 #reset:hover {
   background-color: #90ee908c;
 }
+
+@media only screen and (max-height: 600) {
+  #container {
+    transform: scaleY(0.8);
+  }
+}

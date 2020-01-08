@@ -136,4 +136,10 @@ html {
   background-color: #90ee908c;
 }
 
+@media only screen and (max-height: 600) {
+  #container {
+    transform: scaleY(0.8);
+  }
+}
+
 /*# sourceMappingURL=/style.e0c02e61.css.map */

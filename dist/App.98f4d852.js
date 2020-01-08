@@ -31917,6 +31917,8 @@ var TomatoSVG = function TomatoSVG(props) {
     id: "tomato_stem",
     fillRule: "evenodd",
     strokeWidth: "30px",
+    strokeDasharray: props.leafDasharray,
+    strokeDashoffset: props.leafDashOffset,
     stroke: "tomato",
     fill: "#000000",
     d: "m337.15 263.41c-1.1133 10.585 14.285 45.707 16.497 63.541 2.2114 17.834 6.9702 30.137-11.074 34.025-18.044 3.8876-19.748 11.782-36.111 12.412-16.363 0.63076-31.974-1.3587-40.413 11.886-8.4387 13.244-17.863 23.895-24.641 36.542-6.7777 12.647 10.806 3.9332 23.903 2.3731 13.098-1.56 47.4-25.123 56.068-11.983 8.6675 13.14-14.216 88.052-4.0625 90.821 10.153 2.7685 44.158-72.698 64.983-74.209 20.825-1.5113 48.851 64.519 59.967 65.142 11.116 0.62273-1.2943-58.986 6.7266-61.406 8.021-2.4198 35.364 47.824 41.399 46.887 6.035-0.93717-6.7316-47.861-5.1894-52.51 1.5422-4.6488 26.007 7.6681 14.403-4.3075s-11.474-41.512-32.861-45.872c-21.387-4.3601-59.151 3.9296-60.87-14.566-1.7192-18.496-3.1953-86.357-9.318-104.74-5.791-3.2739-55.027 2.8185-59.406 5.9677z"
@@ -32044,8 +32046,11 @@ function (_React$Component) {
       timerRunning: false,
       timer: null,
       dashOffset: 0,
+      leafDashOffset: 0,
       dasharray: 0,
+      leafDasharray: 0,
       tomatoLineLength: 0,
+      leafLineLength: 0,
       showSplat: false
     };
     _this.initialState = _this.state; // in case we need to reset to default values
@@ -32073,16 +32078,18 @@ function (_React$Component) {
 
       if ((min + '').length < 2) {
         min = '0' + min;
-      }
+      } // calculate how far the line should be painted for tomato animation
+
 
       var percentageComplete = (this.state.initialTime - this.state.timeLeft) / this.state.initialTime;
-      console.log('% complete', percentageComplete);
       var drawLength = this.state.tomatoLineLength * percentageComplete;
-      console.log('drawlength', drawLength, 'tomatoline', this.state.tomatoLineLength);
       var newOffset = this.state.tomatoLineLength - drawLength;
+      drawLength = this.state.leafLineLength * percentageComplete;
+      var newLeafOffset = this.state.leafLineLength - drawLength;
       this.setState({
         timeLeftText: "".concat(min, ":").concat(seconds),
-        dashOffset: newOffset
+        dashOffset: newOffset,
+        leafDashOffset: newLeafOffset
       });
 
       if (this.state.timeLeft === 0) {
@@ -32163,18 +32170,25 @@ function (_React$Component) {
     value: function toggleTimer() {
       if (!this.state.inSession && !this.state.inBreak) {
         // timer has never been started since load or last reset
-        // calculate offset
+        // calculate offset for the tomato animation
         var tomatoOutline = document.getElementById('tomato_outline');
+        var leafOutline = document.getElementById('tomato_stem');
         var tomatoLineLength = tomatoOutline.getTotalLength();
+        var leafLineLength = leafOutline.getTotalLength();
         this.setState({
-          tomatoLineLength: tomatoLineLength
+          tomatoLineLength: tomatoLineLength,
+          leafLineLength: leafLineLength
         });
         var newOffset = this.state.tomatoLineLength;
         var newDasharray = this.state.tomatoLineLength;
+        var newLeafOffset = this.state.leafLineLength;
+        var newLeafDasharray = this.state.leafLineLength;
         this.setState({
           inSession: true,
           dashOffset: newOffset,
           dasharray: newDasharray,
+          leafDashOffset: newLeafOffset,
+          leafDasharray: newLeafDasharray,
           initialTime: this.state.timeLeft
         });
       }
@@ -32286,7 +32300,9 @@ function (_React$Component) {
         timeLeft: this.state.timeLeftText
       }), this.state.showSplat ? _react.default.createElement(_SplatSVG.default, null) : _react.default.createElement(_TomatoSVG.default, {
         dasharray: this.state.dasharray,
-        dashOffset: this.state.dashOffset
+        dashOffset: this.state.dashOffset,
+        leafDashOffset: this.state.leafDashOffset,
+        leafDasharray: this.state.leafDasharray
       }), _react.default.createElement("div", {
         id: "controls_wrapper"
       }, _react.default.createElement(_SetDurationContainer.default, {
@@ -32359,7 +32375,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62512" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51198" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -23,8 +23,11 @@ class Container extends React.Component {
       timerRunning: false,
       timer: null,
       dashOffset: 0,
+      leafDashOffset: 0,
       dasharray: 0,
+      leafDasharray: 0,
       tomatoLineLength: 0,
+      leafLineLength: 0,
       showSplat: false
     };
 
@@ -50,21 +53,17 @@ class Container extends React.Component {
       min = '0' + min;
     }
 
+    // calculate how far the line should be painted for tomato animation
     let percentageComplete =
       (this.state.initialTime - this.state.timeLeft) / this.state.initialTime;
-    console.log('% complete', percentageComplete);
     let drawLength = this.state.tomatoLineLength * percentageComplete;
-    console.log(
-      'drawlength',
-      drawLength,
-      'tomatoline',
-      this.state.tomatoLineLength
-    );
     let newOffset = this.state.tomatoLineLength - drawLength;
-
+    drawLength = this.state.leafLineLength * percentageComplete;
+    let newLeafOffset = this.state.leafLineLength - drawLength;
     this.setState({
       timeLeftText: `${min}:${seconds}`,
-      dashOffset: newOffset
+      dashOffset: newOffset,
+      leafDashOffset: newLeafOffset
     });
 
     if (this.state.timeLeft === 0) {
@@ -123,17 +122,27 @@ class Container extends React.Component {
   toggleTimer() {
     if (!this.state.inSession && !this.state.inBreak) {
       // timer has never been started since load or last reset
-      // calculate offset
+
+      // calculate offset for the tomato animation
       const tomatoOutline = document.getElementById('tomato_outline');
+      const leafOutline = document.getElementById('tomato_stem');
       const tomatoLineLength = tomatoOutline.getTotalLength();
-      this.setState({ tomatoLineLength: tomatoLineLength });
+      const leafLineLength = leafOutline.getTotalLength();
+      this.setState({
+        tomatoLineLength: tomatoLineLength,
+        leafLineLength: leafLineLength
+      });
 
       let newOffset = this.state.tomatoLineLength;
       let newDasharray = this.state.tomatoLineLength;
+      let newLeafOffset = this.state.leafLineLength;
+      let newLeafDasharray = this.state.leafLineLength;
       this.setState({
         inSession: true,
         dashOffset: newOffset,
         dasharray: newDasharray,
+        leafDashOffset: newLeafOffset,
+        leafDasharray: newLeafDasharray,
         initialTime: this.state.timeLeft
       });
     }
@@ -229,6 +238,8 @@ class Container extends React.Component {
           <TomatoSVG
             dasharray={this.state.dasharray}
             dashOffset={this.state.dashOffset}
+            leafDashOffset={this.state.leafDashOffset}
+            leafDasharray={this.state.leafDasharray}
           />
         )}
         <div id="controls_wrapper">
