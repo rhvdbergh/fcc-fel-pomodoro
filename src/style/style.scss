@@ -2,8 +2,8 @@
 
 $bg-color: white;
 $main-font-color: rgb(26, 13, 13);
-$small-font: 1.1em;
-$large-font: 1.5em;
+$small-font: 1em;
+$large-font: 1.4em;
 
 @mixin twoColumns {
   padding-top: 20px;
@@ -47,7 +47,7 @@ html {
 }
 
 #container {
-  width: 320px;
+  width: 310px;
   height: 450px;
 
   background-color: azure;
@@ -67,7 +67,7 @@ html {
 
 #controls_wrapper {
   background-color: rgb(47, 193, 241);
-  transform: translateY(-140%);
+  transform: translateY(-120%);
   border-radius: 20px;
   border-right: 3px solid $main-font-color;
   border-left: 12px solid $main-font-color;
@@ -85,10 +85,9 @@ html {
 }
 
 #controls_container {
-  // @include twoColumns;
   @include durationControls;
-  // transform: translateY(-600%);
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 #timer_container {
@@ -98,13 +97,50 @@ html {
   font-family: 'Baloo Bhai', cursive;
 }
 
+#timer-label,
+#time-left {
+  font-size: $large-font;
+}
+
 #break_controls_container,
 #session_controls_container {
   @include durationControls;
+  font-size: $large-font;
 }
 
 .button,
 .length_display {
   margin: 0 10px 0 10px;
   padding-top: 10px;
+}
+
+.length_display {
+  width: 30px;
+}
+.button {
+  // width: 7px;
+}
+
+#start_stop {
+  padding: 10px 30px;
+  width: 55px;
+  background-color: tomato;
+  border: 5px solid $main-font-color;
+  border-radius: 5px;
+}
+
+#start_stop:hover {
+  background-color: #ff634794;
+}
+
+#reset {
+  padding: 10px 30px;
+  width: 55px;
+  background-color: lightgreen;
+  border: 5px solid $main-font-color;
+  border-radius: 5px;
+}
+
+#reset:hover {
+  background-color: #90ee908c;
 }

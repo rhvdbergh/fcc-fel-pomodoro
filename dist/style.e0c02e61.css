@@ -4,7 +4,7 @@ html {
   position: relative;
   background: white;
   color: #1a0d0d;
-  font-size: 1.1em;
+  font-size: 1em;
   font-family: "Sonsie One", cursive;
 }
 
@@ -23,7 +23,7 @@ html {
 }
 
 #container {
-  width: 320px;
+  width: 310px;
   height: 450px;
   background-color: azure;
   text-align: center;
@@ -38,7 +38,7 @@ html {
 
 #controls_wrapper {
   background-color: #2fc1f1;
-  transform: translateY(-140%);
+  transform: translateY(-120%);
   border-radius: 20px;
   border-right: 3px solid #1a0d0d;
   border-left: 12px solid #1a0d0d;
@@ -60,14 +60,20 @@ html {
   flex-wrap: wrap;
   justify-content: center;
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 #timer_container {
   width: 95%;
   padding-bottom: 10px;
-  font-size: 1.5em;
+  font-size: 1.4em;
   margin-top: 100px;
   font-family: "Baloo Bhai", cursive;
+}
+
+#timer-label,
+#time-left {
+  font-size: 1.4em;
 }
 
 #break_controls_container,
@@ -75,12 +81,41 @@ html {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  font-size: 1.4em;
 }
 
 .button,
 .length_display {
   margin: 0 10px 0 10px;
   padding-top: 10px;
+}
+
+.length_display {
+  width: 30px;
+}
+
+#start_stop {
+  padding: 10px 30px;
+  width: 55px;
+  background-color: tomato;
+  border: 5px solid #1a0d0d;
+  border-radius: 5px;
+}
+
+#start_stop:hover {
+  background-color: #ff634794;
+}
+
+#reset {
+  padding: 10px 30px;
+  width: 55px;
+  background-color: lightgreen;
+  border: 5px solid #1a0d0d;
+  border-radius: 5px;
+}
+
+#reset:hover {
+  background-color: #90ee908c;
 }
 
 /*# sourceMappingURL=/style.e0c02e61.css.map */
