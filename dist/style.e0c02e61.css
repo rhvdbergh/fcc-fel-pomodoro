@@ -136,9 +136,13 @@ html {
   background-color: #90ee908c;
 }
 
-@media only screen and (max-height: 600) {
-  #container {
-    transform: scaleY(0.8);
+@media only screen and (max-height: 600px) {
+  #tomato {
+    transform: translate(0, -80%) scale(0.8);
+  }
+
+  #controls_wrapper {
+    transform: translateY(-145%);
   }
 }
 
