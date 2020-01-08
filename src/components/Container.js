@@ -13,7 +13,7 @@ class Container extends React.Component {
     this.state = {
       timeLeftText: '25:00',
       timeLeft: 1500, // seconds (default 1500)
-      initialTime: 1500,
+      initialTime: 1500, // seconds default 1500
       startStopText: 'Start',
       timerLabelText: 'Session',
       breakLength: 5, // minutes (default 5)
@@ -73,7 +73,7 @@ class Container extends React.Component {
       const beep = document.getElementById('beep');
       beep.play();
       this.setState({ showSplat: true });
-      setTimeout(() => this.setState({ showSplat: false }), 3000);
+      setTimeout(() => this.setState({ showSplat: false }), 5000);
       if (this.state.inSession) {
         const len = this.state.breakLength * 60;
         if ((this.state.breakLength + '').length < 2) {

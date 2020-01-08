@@ -32032,6 +32032,7 @@ function (_React$Component) {
       timeLeft: 1500,
       // seconds (default 1500)
       initialTime: 1500,
+      // seconds default 1500
       startStopText: 'Start',
       timerLabelText: 'Session',
       breakLength: 5,
@@ -32097,7 +32098,7 @@ function (_React$Component) {
           return _this2.setState({
             showSplat: false
           });
-        }, 3000);
+        }, 5000);
 
         if (this.state.inSession) {
           var len = this.state.breakLength * 60;

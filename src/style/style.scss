@@ -22,6 +22,18 @@ $large-font: 1.4em;
   justify-content: center;
 }
 
+@keyframes resize {
+  0% {
+    transform: translate(16%, -20%) scale(1);
+  }
+  50% {
+    transform: translate(16%, -20%) scale(4.2);
+  }
+  100% {
+    transform: translate(16%, -20%) scale(4);
+  }
+}
+
 body,
 html {
   height: 100%;
@@ -39,7 +51,8 @@ html {
 }
 
 #splat {
-  transition: all 1s ease;
+  transform-origin: 50% 50%;
+  animation: 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) 0s 1 resize;
   transform: translate(16%, -20%) scale(4);
   z-index: -1;
 }
