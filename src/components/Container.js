@@ -170,7 +170,7 @@ class Container extends React.Component {
     } else {
       // timer is not running
       this.setState({
-        timer: setInterval(this.subtractTime, 1000),
+        timer: setInterval(this.subtractTime, 5),
         startStopText: 'Stop',
         timerRunning: !this.state.timerRunning
       });
